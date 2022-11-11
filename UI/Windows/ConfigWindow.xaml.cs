@@ -161,11 +161,7 @@ namespace SPCode.UI.Windows
             InitializeComponent();
             Language_Translate();
             EvaluateRTL();
-            if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
-            {
-                ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor),
-                    ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme));
-            }
+            this.ApplyTheme();
 
             foreach (var config in Program.Configs)
             {

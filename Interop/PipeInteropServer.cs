@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO.Pipes;
+using System.Runtime.InteropServices;
 using System.Text;
 using SPCode.UI;
 using SPCode.Utils;
@@ -8,7 +9,7 @@ namespace SPCode.Interop
 {
     public class PipeInteropServer : IDisposable
     {
-        private NamedPipeServerStream pipeServer;
+        private NamedPipeServerStream _pipeServer;
         private readonly MainWindow _window;
 
         public PipeInteropServer(MainWindow window)
@@ -23,50 +24,55 @@ namespace SPCode.Interop
 
         public void Close()
         {
-            pipeServer.Close();
+            _pipeServer.Close();
         }
 
         public void Dispose()
         {
-            pipeServer.Close();
+            _pipeServer.Close();
         }
 
         private void StartInteropServer()
         {
-            if (pipeServer != null)
-            {
-                pipeServer.Close();
-                pipeServer = null;
-            }
-            pipeServer = new NamedPipeServerStream(NamesHelper.PipeServerName, PipeDirection.In, 1, PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
-            pipeServer.BeginWaitForConnection(new AsyncCallback(PipeConnection_MessageIn), null);
+            _pipeServer?.Close();
+
+            _pipeServer = new NamedPipeServerStream(NamesHelper.PipeServerName, PipeDirection.In, 1,
+                PipeTransmissionMode.Byte, PipeOptions.Asynchronous);
+            _pipeServer.BeginWaitForConnection(PipeConnection_MessageIn, null);
         }
 
         private void PipeConnection_MessageIn(IAsyncResult iar)
         {
-            pipeServer.EndWaitForConnection(iar);
-            var byteBuffer = new byte[4];
-            pipeServer.Read(byteBuffer, 0, sizeof(int));
-            var length = BitConverter.ToInt32(byteBuffer, 0);
-            byteBuffer = new byte[length];
-            pipeServer.Read(byteBuffer, 0, length);
-            var data = Encoding.UTF8.GetString(byteBuffer);
+            _pipeServer.EndWaitForConnection(iar);
+
+            // Read data length from pipe
+            Span<byte> lengthBytes = stackalloc byte[4];
+            _pipeServer.Read(lengthBytes);
+            var length = MemoryMarshal.Read<int>(lengthBytes);
+            Console.WriteLine(length);
+
+            // Read data from pipe
+            Span<byte> dataBytes = stackalloc byte[length];
+            _pipeServer.Read(dataBytes);
+            var data = Encoding.UTF8.GetString(dataBytes);
+
             var files = data.Split('|');
-            var SelectIt = true;
-            for (var i = 0; i < files.Length; ++i)
+            _window.Dispatcher.Invoke(() =>
             {
-                _window.Dispatcher.Invoke(() =>
+                var selectIt = true;
+                foreach (var filePath in files)
                 {
-                    if (_window.IsLoaded)
+                    if (!_window.IsLoaded) continue;
+
+                    if (_window.TryLoadSourceFile(filePath, out _, SelectMe: selectIt) &&
+                        _window.WindowState == System.Windows.WindowState.Minimized)
                     {
-                        if (_window.TryLoadSourceFile(files[i], out _, SelectMe: SelectIt) && _window.WindowState == System.Windows.WindowState.Minimized)
-                        {
-                            _window.WindowState = System.Windows.WindowState.Normal;
-                            SelectIt = false;
-                        }
+                        _window.WindowState = System.Windows.WindowState.Normal;
+                        selectIt = false;
                     }
-                });
-            }
+                }
+            });
+
             StartInteropServer();
         }
     }
