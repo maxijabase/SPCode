@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
+using ControlzEx.Theming;
 using MahApps.Metro;
 
 namespace SPCode.Utils;
@@ -7,10 +10,7 @@ public static class WindowExtensions
 {
     public static void ApplyTheme(this Window window)
     {
-        if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
-        {
-            ThemeManager.ChangeAppStyle(window, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor),
-                ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme));
-        }
+        var themeName = $"{Program.OptionsObject.Program_Theme}.{Program.OptionsObject.Program_AccentColor}";
+        ThemeManager.Current.ChangeTheme(window, themeName);
     }
 }

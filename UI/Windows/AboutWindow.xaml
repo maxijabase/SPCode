@@ -6,7 +6,7 @@
                       Height="500"
                       ResizeMode="CanResize" 
                       WindowStartupLocation="CenterOwner" 
-                      GlowBrush="{DynamicResource AccentColorBrush}" 
+                      GlowBrush="{DynamicResource MahApps.Brushes.Accent}" 
                       ShowTitleBar="true" 
                       TitleCharacterCasing="Normal"
                       ShowInTaskbar="True">
@@ -16,9 +16,7 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Red.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/themes/dark.red.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </controls:MetroWindow.Resources>

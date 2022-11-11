@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using ControlzEx.Theming;
 using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
 using MdXaml;
@@ -205,7 +206,10 @@ namespace SPCode.Interop.Updater
         /// <returns></returns>
         private string GetAccentHex()
         {
-            return ThemeManager.DetectAppStyle(this).Item2.Resources["AccentColor"].ToString();
+            return "#FFAFFF";
+           //var theme = ThemeManager.Current.DetectTheme(this)!;
+           //theme
+           //return.Resources["AccentColor"].ToString();
         }
 
         /// <summary>

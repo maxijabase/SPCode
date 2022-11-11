@@ -118,7 +118,7 @@ namespace SPCode.UI
             OBDirList.SelectedIndex = 0;
 
             // Set some visual effects
-            BlendOverEffectColorBrush = (SolidColorBrush)FindResource("AccentColorBrush4");
+            BlendOverEffectColorBrush = (SolidColorBrush)FindResource("MahApps.Brushes.Accent4");
             MetroDialogOptions.AnimateHide = MetroDialogOptions.AnimateShow = false;
             BlendOverEffect = (Storyboard)Resources["BlendOverEffect"];
             BlendOverEffect.Completed += delegate

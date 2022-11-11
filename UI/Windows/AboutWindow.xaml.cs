@@ -18,7 +18,7 @@ namespace SPCode.UI.Windows
             EvaluateRTL();
             this.ApplyTheme();
 
-            Brush gridBrush = Program.OptionsObject.Program_Theme == "BaseDark" ?
+            Brush gridBrush = Program.OptionsObject.Program_Theme == "Dark" ?
               new SolidColorBrush(Color.FromArgb(0xC0, 0x10, 0x10, 0x10)) :
               new SolidColorBrush(Color.FromArgb(0xC0, 0xE0, 0xE0, 0xE0));
 

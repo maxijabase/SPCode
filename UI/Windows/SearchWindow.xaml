@@ -3,8 +3,8 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       x:Class="SPCode.UI.Windows.SearchWindow"
                       WindowStartupLocation="Manual"
-                      GlowBrush="{DynamicResource AccentColorBrush}" 
-                      Background="{DynamicResource WhiteBrush}" 
+                      GlowBrush="{DynamicResource MahApps.Brushes.Accent}" 
+                      Background="{DynamicResource MahApps.Brushes.ThemeBackground}" 
                       ResizeMode="NoResize" 
                       ShowTitleBar="True"
                       ShowInTaskbar="False" 
@@ -21,10 +21,8 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Red.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/themes/dark.red.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/controls.flatbutton.xaml" />
         <ResourceDictionary>
         </ResourceDictionary>
       </ResourceDictionary.MergedDictionaries>
@@ -61,10 +59,10 @@
                 <Setter Property="Margin" Value="3"/>
               </Style>
             </StackPanel.Resources>
-            <RadioButton x:Name="NSearch_RButton" Foreground="{DynamicResource BlackBrush}" Checked="RadioButtonsChanged"/>
-            <RadioButton x:Name="WSearch_RButton" Foreground="{DynamicResource BlackBrush}" Checked="RadioButtonsChanged"/>
-            <RadioButton x:Name="ASearch_RButton" Foreground="{DynamicResource BlackBrush}" Checked="RadioButtonsChanged" />
-            <RadioButton x:Name="RSearch_RButton" Foreground="{DynamicResource BlackBrush}" Checked="RadioButtonsChanged" />
+            <RadioButton x:Name="NSearch_RButton" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" Checked="RadioButtonsChanged"/>
+            <RadioButton x:Name="WSearch_RButton" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" Checked="RadioButtonsChanged"/>
+            <RadioButton x:Name="ASearch_RButton" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" Checked="RadioButtonsChanged" />
+            <RadioButton x:Name="RSearch_RButton" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" Checked="RadioButtonsChanged" />
           </StackPanel>
         </Grid>
 
@@ -74,10 +72,10 @@
               <ComboBoxItem x:Name="MenuFR_CurrDoc" />
               <ComboBoxItem x:Name="MenuFR_AllDoc" />
             </ComboBox>
-            <CheckBox x:Name="CCBox" Foreground="{DynamicResource BlackBrush}" Margin="0,3,0,0" Checked="CaseSensitiveChanged" Unchecked="CaseSensitiveChanged">
+            <CheckBox x:Name="CCBox" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" Margin="0,3,0,0" Checked="CaseSensitiveChanged" Unchecked="CaseSensitiveChanged">
               <TextBlock x:Name="CCBoxText" TextWrapping="Wrap"/>
             </CheckBox>
-            <CheckBox x:Name="MLRBox" Foreground="{DynamicResource BlackBrush}" Margin="0,5,0,0" Checked="MultilineRegexChanged" Unchecked="MultilineRegexChanged">
+            <CheckBox x:Name="MLRBox" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" Margin="0,5,0,0" Checked="MultilineRegexChanged" Unchecked="MultilineRegexChanged">
               <TextBlock x:Name="MLRBoxText" TextWrapping="Wrap"/>
             </CheckBox>
           </StackPanel>
@@ -95,7 +93,7 @@
     </Grid>
 
     <Grid Grid.Row="2">
-      <TextBlock x:Name="FindResultBlock" FontSize="14" Margin="5,-1,0,0" Foreground="{DynamicResource AccentColorBrush}" IsHitTestVisible="False" />
+      <TextBlock x:Name="FindResultBlock" FontSize="14" Margin="5,-1,0,0" Foreground="{DynamicResource MahApps.Brushes.Accent}" IsHitTestVisible="False" />
     </Grid>
     
   </Grid>

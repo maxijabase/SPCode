@@ -3,8 +3,8 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       x:Class="SPCode.UI.Windows.GoToLineWindow"
                       WindowStartupLocation="CenterScreen" 
-                      GlowBrush="{DynamicResource AccentColorBrush}" 
-                      Background="{DynamicResource WhiteBrush}" 
+                      GlowBrush="{DynamicResource MahApps.Brushes.Accent}" 
+                      Background="{DynamicResource MahApps.Brushes.ThemeBackground}" 
                       ResizeMode="NoResize"
                       ShowInTaskbar="True" 
                       Height="104" 
@@ -12,7 +12,7 @@
                       HorizontalAlignment="Center" 
                       VerticalAlignment="Center" 
                       UseNoneWindowStyle="False" 
-                      TitlebarHeight="15" 
+                      TitleBarHeight="15" 
                       KeyDown="MetroWindow_KeyDown">
 
   <controls:MetroWindow.Resources>
@@ -20,10 +20,9 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Red.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/themes/dark.red.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/controls.flatbutton.xaml" />
+
         <ResourceDictionary>
           <Storyboard x:Key="BlendOverEffect" Duration="00:00:00.5" Storyboard.TargetName="BlendEffectPlane" Storyboard.TargetProperty="Opacity">
             <DoubleAnimationUsingKeyFrames>
@@ -64,9 +63,9 @@
   </controls:MetroWindow.Resources>
   
   <Grid x:Name="GoToLineMainGrid">
-    <TextBox Name="JumpNumber" VerticalAlignment="Top" Text="1" KeyDown="JumpNumberKeyDown" Foreground="{DynamicResource BlackColorBrush}" Margin="5,5,5,0" TextChanged="JumpNumber_TextChanged" />
-    <RadioButton Name="rbLineJump" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" IsChecked="True" Foreground="{DynamicResource BlackColorBrush}" Checked="RbLineJump_Checked" />
-    <RadioButton Name="rbOffsetJump" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,55,0,0" IsChecked="False" Foreground="{DynamicResource BlackColorBrush}" Checked="RbOffsetJump_Checked" />
+    <TextBox Name="JumpNumber" VerticalAlignment="Top" Text="1" KeyDown="JumpNumberKeyDown" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" Margin="5,5,5,0" TextChanged="JumpNumber_TextChanged" />
+    <RadioButton Name="rbLineJump" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" IsChecked="True" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" Checked="RbLineJump_Checked" />
+    <RadioButton Name="rbOffsetJump" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,55,0,0" IsChecked="False" Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}" Checked="RbOffsetJump_Checked" />
     <Button Name="btJump" HorizontalAlignment="Right" VerticalAlignment="Top" Width="100" Margin="0,45,5,0" Click="JumpToNumber"/>
     <Label Name="lblError" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" Foreground="Red" FontWeight="Bold"/>
   </Grid>
