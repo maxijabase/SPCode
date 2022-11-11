@@ -10,6 +10,7 @@ using System.Windows.Input;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
 using SPCode.UI.Components;
+using SPCode.Utils;
 using Xceed.Wpf.AvalonDock.Layout;
 using static SPCode.Interop.TranslationProvider;
 
@@ -51,11 +52,7 @@ namespace SPCode.UI.Windows
         public SearchWindow(string searchTerm = "")
         {
             InitializeComponent();
-            if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
-            {
-                ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor),
-                    ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme));
-            }
+            this.ApplyTheme();
 
             _searchOptions = Program.OptionsObject.SearchOptions;
             Left = Program.MainWindow.Left + Program.MainWindow.Width - Program.MainWindow.ObjectBrowserColumn.Width.Value - (Width + 20);

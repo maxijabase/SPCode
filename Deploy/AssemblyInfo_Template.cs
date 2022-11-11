@@ -16,3 +16,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("${TAG}")]
 [assembly: AssemblyInformationalVersion("${TAG}.beta${REV}")]
+[assembly: System.Runtime.Versioning.SupportedOSPlatform("windows7.0")]

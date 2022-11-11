@@ -21,15 +21,7 @@ public static class DirHelper
 
     public static bool CanAccess(string path)
     {
-        try
-        {
-            Directory.GetAccessControl(path);
-        }
-        catch (UnauthorizedAccessException)
-        {
-            return false;
-        }
-        return true;
+        return CanAccess(new DirectoryInfo(path));
     }
 
     public static bool CanAccess(DirectoryInfo dir)

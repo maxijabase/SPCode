@@ -189,13 +189,7 @@ namespace SPCode
 
         public void ReCreateCryptoKey()
         {
-            var buffer = new byte[16];
-            using (var cryptoRandomProvider = new RNGCryptoServiceProvider()
-            ) //generate global unique cryptokey
-            {
-                cryptoRandomProvider.GetBytes(buffer);
-            }
-
+            var buffer = RandomNumberGenerator.GetBytes(16);;
             Program_CryptoKey = buffer;
         }
 

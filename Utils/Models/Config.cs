@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using SourcepawnCondenser.SourcemodDefinition;
 
@@ -59,8 +60,12 @@ namespace SPCode.Utils
 
             try
             {
+                var watch = Stopwatch.StartNew();
                 var def = new SMDefinition();
                 def.AppendFiles(SMDirectories, out var rejectedPaths);
+                watch.Stop();
+                Console.WriteLine(watch.ElapsedMilliseconds);
+
 
                 RejectedPaths.Clear();
 

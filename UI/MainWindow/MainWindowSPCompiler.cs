@@ -446,6 +446,7 @@ namespace SPCode.UI
         /// <summary>
         /// Uploads the compiled plugins via FTP to the specified destination.
         /// </summary>
+        [Obsolete("Obsolete")]
         private void FTPUpload_Plugins()
         {
             var output = new List<string>();

@@ -516,6 +516,7 @@ namespace SPCode.UI.Windows
             Program.Configs[ConfigListBox.SelectedIndex].FTPDir = C_FTPDir.Text;
         }
 
+        [Obsolete("Obsolete")]
         private async void FTPTestConnectionButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = await this.ShowProgressAsync(Translate("TestingFTPConn"), Translate("PleaseWait"), settings: Program.MainWindow.MetroDialogOptions);
@@ -526,7 +527,7 @@ namespace SPCode.UI.Windows
 
             if (string.IsNullOrEmpty(host) || string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pw))
             {
-                await dialog?.CloseAsync();
+                await dialog?.CloseAsync()!;
                 await this.ShowMessageAsync(Translate("Warning"), Translate("FTPFieldsEmpty"), settings: Program.MainWindow.MetroDialogOptions);
                 return;
             }
@@ -536,8 +537,7 @@ namespace SPCode.UI.Windows
             dialog.SetCancelable(true);
             dialog.Canceled += async delegate
             {
-                await dialog?.CloseAsync();
-                return;
+                await dialog.CloseAsync();
             };
             var result = await ftp.TestConnection();
             if ((bool)dialog?.IsCanceled)

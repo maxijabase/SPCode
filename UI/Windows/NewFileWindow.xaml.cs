@@ -105,11 +105,7 @@ namespace SPCode.UI.Windows
 
             PreviewBox.Parent = new LayoutDocument();
             Program.MainWindow.EditorReferences.Add(PreviewBox);
-            if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
-            {
-                ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor),
-                    ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme));
-            }
+            this.ApplyTheme();
 
             TemplateListBox.SelectedIndex = 0;
 

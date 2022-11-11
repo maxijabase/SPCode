@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using ICSharpCode.AvalonEdit;
 using MahApps.Metro;
+using SPCode.Utils;
 using static SPCode.Interop.TranslationProvider;
 
 namespace SPCode.UI.Windows
@@ -20,11 +21,7 @@ namespace SPCode.UI.Windows
         public GoToLineWindow()
         {
             InitializeComponent();
-            if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
-            {
-                ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor),
-                    ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme));
-            }
+            this.ApplyTheme();
             _editor = Program.MainWindow.GetCurrentEditorElement().editor;
             _lineNumber = _editor.LineCount;
             _offsetNumber = _editor.Document.TextLength;

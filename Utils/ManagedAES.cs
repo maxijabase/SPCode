@@ -9,16 +9,22 @@ namespace SPCode.Utils
     public static class ManagedAES
     {
         private static byte[] Salt;
+
         public static string Encrypt(string plainText)
         {
             if (plainText.Length < 1)
             {
                 return string.Empty;
             }
+
             try
             {
-                var symmetricKey = new RijndaelManaged { Mode = CipherMode.CBC, Padding = PaddingMode.Zeros };
-                var encryptor = symmetricKey.CreateEncryptor(SaltKey(Program.OptionsObject.Program_CryptoKey), Encoding.ASCII.GetBytes("SPEdit.Utils.AES")); //so cool that this matches :D
+                var symmetricKey = Aes.Create("AesManaged")!;
+                symmetricKey.Mode = CipherMode.CBC;
+                symmetricKey.Padding = PaddingMode.Zeros;
+
+                var encryptor = symmetricKey.CreateEncryptor(SaltKey(Program.OptionsObject.Program_CryptoKey),
+                    Encoding.ASCII.GetBytes("SPEdit.Utils.AES")); //so cool that this matches :D
                 byte[] cipherTextBytes;
                 using (var memoryStream = new MemoryStream())
                 {
@@ -28,6 +34,7 @@ namespace SPCode.Utils
                     cryptoStream.FlushFinalBlock();
                     cipherTextBytes = memoryStream.ToArray();
                 }
+
                 return Convert.ToBase64String(cipherTextBytes);
             }
             catch (Exception)
@@ -44,11 +51,15 @@ namespace SPCode.Utils
             {
                 return string.Empty;
             }
+
             try
             {
                 var cipherTextBytes = Convert.FromBase64String(encryptedText);
-                var symmetricKey = new RijndaelManaged { Mode = CipherMode.CBC, Padding = PaddingMode.None };
-                var decryptor = symmetricKey.CreateDecryptor(SaltKey(Program.OptionsObject.Program_CryptoKey), Encoding.ASCII.GetBytes("SPEdit.Utils.AES"));
+                var symmetricKey = Aes.Create("AesManaged")!;
+                symmetricKey.Mode = CipherMode.CBC;
+                symmetricKey.Padding = PaddingMode.Zeros;
+                var decryptor = symmetricKey.CreateDecryptor(SaltKey(Program.OptionsObject.Program_CryptoKey),
+                    Encoding.ASCII.GetBytes("SPEdit.Utils.AES"));
                 string outString;
                 using (var memoryStream = new MemoryStream(cipherTextBytes))
                 {
@@ -57,6 +68,7 @@ namespace SPCode.Utils
                     var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
                     outString = Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount).TrimEnd('\0');
                 }
+
                 return outString;
             }
             catch (Exception)
@@ -73,6 +85,7 @@ namespace SPCode.Utils
             {
                 CreateSalt();
             }
+
             if (!Program.OptionsObject.Program_UseHardwareSalts)
             {
                 return key;
@@ -90,18 +103,21 @@ namespace SPCode.Utils
                     buffer[i] = key[i];
                 }
             }
+
             return buffer;
         }
 
         private static void CreateSalt()
         {
             byte[] buffer;
-            using (MD5 md5Provider = new MD5CryptoServiceProvider())
+            using (HashAlgorithm md5Provider = HashAlgorithm.Create("MD5")!)
             {
-                var inString = $"SPEditSalt {CpuId()}{DiskId()}{Environment.ProcessorCount}{(Environment.Is64BitOperatingSystem ? "T" : "F")}";
+                var inString =
+                    $"SPEditSalt {CpuId()}{DiskId()}{Environment.ProcessorCount}{(Environment.Is64BitOperatingSystem ? "T" : "F")}";
                 var encoder = new UTF8Encoding();
                 buffer = md5Provider.ComputeHash(encoder.GetBytes(inString));
             }
+
             Salt = buffer;
         }
 
@@ -127,6 +143,7 @@ namespace SPCode.Utils
 
             return id;
         }
+
         private static string DiskId()
         {
             var id = string.Empty;

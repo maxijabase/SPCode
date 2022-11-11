@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Text;
 
 namespace SourcepawnCondenser.Tokenizer
@@ -9,9 +10,9 @@ namespace SourcepawnCondenser.Tokenizer
     {
         public static List<Token> TokenizeString(string source, bool ignoreMultipleEOL)
         {
-            var sArray = source.ToCharArray();
+            var sArray = source.AsSpan();
             var sArrayLength = sArray.Length;
-            var token = new List<Token>((int)Math.Ceiling(sArrayLength * 0.20f));
+            var token = new List<Token>((int)Math.Ceiling(sArrayLength * 0.12));
 
             //the reservation of the capacity is an empirical measured optimization. The average token to text length is 0.19 (with multiple EOL)
             //To hopefully never extend the inner array, we use 2.3  |  performance gain: around 20%
@@ -445,6 +446,7 @@ namespace SourcepawnCondenser.Tokenizer
                                                 i = j - 1;
                                                 break;
                                             }
+
                                             continue;
                                         }
 
@@ -482,8 +484,6 @@ namespace SourcepawnCondenser.Tokenizer
             }
 
             token.Add(new Token("", TokenKind.EOF, sArrayLength));
-            
-            
             return token;
         }
 

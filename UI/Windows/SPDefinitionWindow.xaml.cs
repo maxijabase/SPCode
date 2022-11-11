@@ -11,6 +11,7 @@ using MahApps.Metro;
 using MahApps.Metro.Controls;
 using SourcepawnCondenser;
 using SourcepawnCondenser.SourcemodDefinition;
+using SPCode.Utils;
 using static SPCode.Interop.TranslationProvider;
 
 namespace SPCode.UI.Windows
@@ -29,11 +30,7 @@ namespace SPCode.UI.Windows
         {
             InitializeComponent();
             Language_Translate();
-            if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
-            {
-                ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor),
-                    ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme));
-            }
+            this.ApplyTheme();
 
             errorSearchBoxBrush.Freeze();
             var def = Program.Configs[Program.SelectedConfig].GetSMDef();

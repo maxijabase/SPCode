@@ -1,38 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B4E00F2D-DD73-42C7-A0CA-BA92B2A05850}</ProjectGuid>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SourcepawnCondenser</RootNamespace>
-    <AssemblyName>SourcepawnCondenser</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <LangVersion>latest</LangVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -40,60 +11,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug-Beta|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug-Beta\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>latest</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Beta|AnyCPU'">
     <OutputPath>bin\Release-Beta\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>latest</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Condenser.cs" />
-    <Compile Include="CondenserFunctions\SMClasslike.cs" />
-    <Compile Include="CondenserFunctions\SMEnumStructConsumer.cs" />
-    <Compile Include="CondenserFunctions\SMPPDirectiveConsumer.cs" />
-    <Compile Include="CondenserFunctions\SMConstantConsumer.cs" />
-    <Compile Include="CondenserFunctions\SMMethodmapConsumer.cs" />
-    <Compile Include="CondenserFunctions\SMTypedefConsumer.cs" />
-    <Compile Include="CondenserFunctions\SMStructConsumer.cs" />
-    <Compile Include="CondenserFunctions\SMEnumConsumer.cs" />
-    <Compile Include="CondenserFunctions\SMFunctionConsumer.cs" />
-    <Compile Include="CondenserFunctions\SMVariableConsumer.cs" />
-    <Compile Include="SourcemodDefinition\SMBaseDefinition.cs" />
-    <Compile Include="SourcemodDefinition\SMDefinition.cs" />
-    <Compile Include="SourcemodDefinition\SMDefine.cs" />
-    <Compile Include="SourcemodDefinition\SMConstant.cs" />
-    <Compile Include="SourcemodDefinition\SMEnumStruct.cs" />
-    <Compile Include="SourcemodDefinition\SMMethodmap.cs" />
-    <Compile Include="SourcemodDefinition\SMTypedef.cs" />
-    <Compile Include="SourcemodDefinition\SMStruct.cs" />
-    <Compile Include="SourcemodDefinition\SMEnum.cs" />
-    <Compile Include="SourcemodDefinition\SMFunction.cs" />
-    <Compile Include="SourcemodDefinition\SMVariable.cs" />
-    <Compile Include="Tokenizer\Token.cs" />
-    <Compile Include="Tokenizer\Tokenizer.cs" />
-    <Compile Include="Tokenizer\TokenKind.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

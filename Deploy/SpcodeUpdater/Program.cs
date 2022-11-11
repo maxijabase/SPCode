@@ -29,6 +29,7 @@ namespace SPCodeUpdater
             }
 
             Application.EnableVisualStyles();
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Thread.Sleep(2000);
             Application.SetCompatibleTextRenderingDefault(true);
             var um = new UpdateMarquee();

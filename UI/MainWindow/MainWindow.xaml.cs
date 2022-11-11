@@ -543,6 +543,7 @@ namespace SPCode.UI
             Title = outString;
         }
 
+        [Obsolete("Obsolete")]
         private void CloseProgram(bool saveAll)
         {
             // Save all the last open files

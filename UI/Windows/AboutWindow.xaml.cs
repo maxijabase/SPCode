@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Navigation;
-using MahApps.Metro;
 using SPCode.Utils;
 using static SPCode.Interop.TranslationProvider;
 
@@ -17,11 +16,7 @@ namespace SPCode.UI.Windows
             InitializeComponent();
             Language_Translate();
             EvaluateRTL();
-            if (Program.OptionsObject.Program_AccentColor != "Red" || Program.OptionsObject.Program_Theme != "BaseDark")
-            {
-                ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor),
-                    ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme));
-            }
+            this.ApplyTheme();
 
             Brush gridBrush = Program.OptionsObject.Program_Theme == "BaseDark" ?
               new SolidColorBrush(Color.FromArgb(0xC0, 0x10, 0x10, 0x10)) :

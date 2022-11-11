@@ -205,7 +205,7 @@ namespace SourcepawnCondenser
                                     ReturnType = methodReturnValue,
                                     // MethodKind = functionIndicators.ToArray(),
                                     Parameters = parameters.ToArray(),
-                                    FullName = TrimFullname(_source.Substring(mStartIndex, mEndIndex - mStartIndex + 1)),
+                                    FullName = TrimFullname(_source.AsSpan(mStartIndex, mEndIndex - mStartIndex + 1)),
                                     Length = mEndIndex - mStartIndex + 1,
                                     CommentString = TrimComments(functionCommentString),
                                     // MethodmapName = enumStructName,

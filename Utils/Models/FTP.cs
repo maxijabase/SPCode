@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Renci.SshNet;
 using Renci.SshNet.Common;
@@ -18,6 +19,7 @@ namespace SPCode.Utils
 
         public FTP(string host, string user, string password) { _host = host; _user = user; _pass = password; }
 
+        [Obsolete("Obsolete")]
         public void Upload(string remoteFile, string localFile)
         {
             var requestUri = new UriBuilder(_host) { Path = remoteFile }.Uri;
@@ -37,6 +39,7 @@ namespace SPCode.Utils
             }
             else
             {
+                
                 using var client = new WebClient
                 {
                     Credentials = new NetworkCredential(_user, _pass)
@@ -48,6 +51,7 @@ namespace SPCode.Utils
         /// <summary>
         /// Returns whether the specified credentials in the Configs Window can be used for a valid FTP/SFTP connection.
         /// </summary>
+        [Obsolete("Obsolete")]
         public async Task<bool> TestConnection()
         {
             var requestUri = new UriBuilder(_host).Uri;

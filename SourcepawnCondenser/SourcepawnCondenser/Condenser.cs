@@ -8,6 +8,9 @@ namespace SourcepawnCondenser;
 
 public partial class Condenser
 {
+    private static readonly char[] CommentTrimSymbols = { '/', '*', ' ', '\t' };
+    private static readonly char[] FullNameTrimSymbols = { ' ', '\t' };
+
     private readonly SMDefinition _def;
 
     private readonly string _fileName;
@@ -138,15 +141,16 @@ public partial class Condenser
         return -1;
     }
 
-    private static string TrimComments(string comment)
+    private static string TrimComments(ReadOnlySpan<char> comment)
     {
         var outString = new StringBuilder();
-        var lines = comment.Split('\r', '\n');
+        var lines = comment.SplitLines();
 
-        for (var i = 0; i < lines.Length; ++i)
+        int i = 0;
+        foreach (var lineSplitEntry in lines)
         {
-            var line = lines[i].Trim().TrimStart('/', '*', ' ', '\t');
-            if (!string.IsNullOrWhiteSpace(line))
+            var line = lineSplitEntry.Line.Trim().TrimStart(CommentTrimSymbols);
+            if (!line.IsWhiteSpace())
             {
                 if (i > 0)
                 {
@@ -155,41 +159,47 @@ public partial class Condenser
 
                 if (line.StartsWith("@param"))
                 {
-                    outString.Append(FormatParamLineString(line));
+                    outString.Append(FormatParamLineString(line.ToString()).Trim());
                 }
                 else
                 {
                     outString.Append(line);
                 }
             }
-        }
 
-        return outString.ToString().Trim();
-    }
-
-    private static string TrimFullname(string name)
-    {
-        var outString = new StringBuilder();
-        var lines = name.Split('\r', '\n');
-        for (var i = 0; i < lines.Length; ++i)
-        {
-            if (!string.IsNullOrWhiteSpace(lines[i]))
-            {
-                if (i > 0)
-                {
-                    outString.Append(" ");
-                }
-
-                outString.Append(lines[i].Trim(' ', '\t'));
-            }
+            i++;
         }
 
         return outString.ToString();
     }
 
+    private static string TrimFullname(ReadOnlySpan<char> name)
+    {
+        var outString = new StringBuilder();
+        int i = 0;
+        foreach (var lineEntry in name.SplitLines())
+        {
+            var line = lineEntry.Line;
+            if (!line.IsWhiteSpace())
+            {
+                if (i > 0)
+                {
+                    outString.Append(' ');
+                }
+
+                outString.Append(line.Trim(FullNameTrimSymbols));
+            }
+
+            i++;
+        }
+
+        return outString.ToString();
+    }
+
+
     private static string FormatParamLineString(string line)
     {
-        var split = line.Replace('\t', ' ').Split(new[] { ' ' }, 3);
+        var split = line.Split(new[] { ' ' }, 3);
         if (split.Length > 2)
         {
             return ("@param " + split[1]).PadRight(24, ' ') + " " + split[2].Trim(' ', '\t');

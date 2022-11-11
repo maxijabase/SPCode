@@ -1,22 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{60D2BA42-B59B-4B49-928E-C0CDDE254917}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SPCode</RootNamespace>
-    <AssemblyName>SPCode</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <OutputType>Exe</OutputType>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <LangVersion>latest</LangVersion>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -31,29 +18,11 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseWindowsForms>true</UseWindowsForms>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
+	<NoWarn>$(NoWarn);SYSLIB0011</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -65,230 +34,25 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug-Beta\</OutputPath>
     <DefineConstants>DEBUG;BETA;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>latest</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release-Beta|AnyCPU'">
     <OutputPath>bin\Release-Beta\</OutputPath>
     <DefineConstants>BETA;TRACE</DefineConstants>
     <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>latest</LangVersion>
-    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="App\App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="CustomMarshalers" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="netstandard" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="smxdasm">
       <HintPath>App\smxdasm.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression.FileSystem" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="System.XML" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="UIAutomationProvider" />
     <Reference Include="ValveQuery">
       <HintPath>ValveQuery\ValveQuery.dll</HintPath>
     </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="App\AssemblyInfo.cs" />
-    <Compile Include="Interop\ConfigControl.cs" />
-    <Compile Include="Interop\HotkeyControl.cs" />
-    <Compile Include="Interop\LoggingControl.cs" />
-    <Compile Include="Interop\PipeInteropClient.cs" />
-    <Compile Include="Interop\PipeInteropServer.cs" />
-    <Compile Include="Interop\OptionsControl.cs" />
-    <Compile Include="Interop\TranslationProvider.cs" />
-    <Compile Include="Interop\Updater\UpdateCheck.cs" />
-    <Compile Include="Interop\Updater\UpdateInfo.cs" />
-    <Compile Include="Interop\Updater\UpdateWindow.xaml.cs">
-      <DependentUpon>UpdateWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Components\ColorChangeControl\ColorChangeControl.xaml.cs">
-      <DependentUpon>ColorChangeControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Components\DASMElement\DASMElement.xaml.cs">
-      <DependentUpon>DASMElement.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Components\EditorElement\EditorElement.xaml.cs">
-      <DependentUpon>EditorElement.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Components\EditorElement\EditorElementBracketHighlighter.cs" />
-    <Compile Include="UI\Components\DASMElement\DASMElementHighlighter.cs" />
-    <Compile Include="UI\Components\EditorElement\EditorElementGoToDefinition.cs" />
-    <Compile Include="UI\Components\EditorElement\EditorElementHighlighter.cs" />
-    <Compile Include="UI\Components\EditorElement\Foldings\EditorFoldingStrategy.cs" />
-    <Compile Include="UI\Components\EditorElement\Highlighting\ColorizeSection.cs" />
-    <Compile Include="UI\Components\EditorElement\Indentation\EditorIndentation.cs" />
-    <Compile Include="UI\Components\EditorElement\EditorElementIntellisenseController.cs" />
-    <Compile Include="UI\Components\HotkeyEditorControl\HotkeyEditorControl.xaml.cs">
-      <DependentUpon>HotkeyEditorControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Interop\LanguageChooserWindow.xaml.cs">
-      <DependentUpon>LanguageChooserWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\MainWindow\MainWindowErrorResultGrid.cs" />
-    <Compile Include="UI\MainWindow\MainWindowErrorStatus.cs" />
-    <Compile Include="UI\MainWindow\MainWindowLogBox.cs" />
-    <Compile Include="UI\MainWindow\MainWindowServerQuery.cs" />
-    <Compile Include="UI\MainWindow\MainWindowSPCompiler.cs" />
-    <Compile Include="UI\MainWindow\MainWindowCommands.cs" />
-    <Compile Include="UI\MainWindow\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\MainWindow\MainWindowInputHandler.cs" />
-    <Compile Include="UI\MainWindow\MainWindowMenuHandler.cs" />
-    <Compile Include="UI\MainWindow\MainWindowConfigHandler.cs" />
-    <Compile Include="UI\MainWindow\MainWindowObjectBrowser.cs" />
-    <Compile Include="UI\MainWindow\MainWindowTranslations.cs" />
-    <Compile Include="UI\STheme\SMetroTheme.cs" />
-    <Compile Include="UI\Windows\ConfigWindow.xaml.cs">
-      <DependentUpon>ConfigWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Windows\ConfigWindow\ConfigWindowConfigsManager.cs" />
-    <Compile Include="UI\Windows\OptionsWindow\OptionsWindowOptionsManager.cs" />
-    <Compile Include="UI\Windows\RenameWindow.xaml.cs">
-      <DependentUpon>RenameWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Windows\GoToLineWindow.xaml.cs">
-      <DependentUpon>GoToLineWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Windows\SearchWindow.xaml.cs">
-      <DependentUpon>SearchWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Windows\NewFileWindow.xaml.cs">
-      <DependentUpon>NewFileWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Windows\OptionsWindow.xaml.cs">
-      <DependentUpon>OptionsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Windows\OptionsWindow\OptionsWindowHotkeys.cs" />
-    <Compile Include="UI\Windows\OptionsWindow\OptionsWindowHighlighting.cs" />
-    <Compile Include="UI\Windows\SPDefinitionWindow.xaml.cs">
-      <DependentUpon>SPDefinitionWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Windows\AboutWindow.xaml.cs">
-      <DependentUpon>AboutWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UI\Components\EditorElement\Highlighting\BracketHighlightHelpers.cs" />
-    <Compile Include="UI\Components\EditorElement\Highlighting\BracketSearchResult.cs" />
-    <Compile Include="Utils\DirHelper.cs" />
-    <Compile Include="Utils\Models\ComboboxItem.cs" />
-    <Compile Include="Utils\Models\Config.cs" />
-    <Compile Include="Utils\Constants.cs" />
-    <Compile Include="Utils\DecompileUtil.cs" />
-    <Compile Include="Utils\Models\ErrorDataGridRow.cs" />
-    <Compile Include="Utils\Models\Hotkey.cs" />
-    <Compile Include="Utils\Models\HotkeyInfo.cs" />
-    <Compile Include="Utils\HotkeyUtils.cs" />
-    <Compile Include="Utils\NamesHelper.cs" />
-    <Compile Include="Utils\ObjectBrowserUtils.cs" />
-    <Compile Include="Utils\PathsHelper.cs" />
-    <Compile Include="Utils\Models\FTP.cs" />
-    <Compile Include="Utils\ManagedAES.cs" />
-    <Compile Include="UI\Components\EditorElement\Highlighting\SPBracketSearcher.cs" />
-    <Compile Include="Utils\RegexKeywordsHelper.cs" />
-    <Compile Include="Utils\SPSyntaxTidy\SPSyntaxTidy.cs" />
-    <Compile Include="Utils\SPSyntaxTidy\SPTokenizer.cs" />
-    <Compile Include="Utils\Models\TemplateInfo.cs" />
-    <Compile Include="Utils\VersionHelper.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Interop\Updater\UpdateWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Components\ColorChangeControl\ColorChangeControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Components\DASMElement\DASMElement.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Components\EditorElement\EditorElement.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Components\HotkeyEditorControl\HotkeyEditorControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Interop\LanguageChooserWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\MainWindow\MainWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\STheme\Brushes.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\STheme\STheme.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Windows\ConfigWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Windows\RenameWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Windows\GoToLineWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Windows\SearchWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UI\Windows\NewFileWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Windows\OptionsWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Windows\SPDefinitionWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UI\Windows\AboutWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
+  
   <ItemGroup>
     <Resource Include="Resources\AboutImages\AvalonDock.png" />
     <Resource Include="Resources\AboutImages\license.png" />
@@ -323,26 +87,14 @@
     <Resource Include="Resources\AboutImages\sourcemod.png" />
     <Resource Include="Resources\AboutImages\smlib.png" />
     <Resource Include="Resources\AboutImages\alliedmodders.png" />
-    <None Include="Deploy\Compress_Beta.ps1" />
-    <None Include="Deploy\Compress_Stable.ps1" />
-    <None Include="Deploy\SPCode_Beta.nsi" />
-    <None Include="Deploy\SPCode_Stable.nsi" />
     <None Include="Resources\Misc\Configurations\Configs.xml">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="SourcepawnCondenser\SourcepawnCondenser\SourcepawnCondenser.csproj">
-      <Project>{b4e00f2d-dd73-42c7-a0ca-ba92b2a05850}</Project>
-      <Name>SourcepawnCondenser</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <None Remove="SPCodeBenchmarks\**" />
+    <None Remove="SourcepawnCondenser\**" />
+    <None Remove="Deploy\SpcodeUpdater\**" />
+    <None Remove="packages\**" />
+    <None Remove="Deploy\SpcodeUpdater.backup\**" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="UI\STheme\Images\DockAnchorableBottom.png" />
@@ -562,19 +314,16 @@
     <PackageReference Include="AvalonEdit">
       <Version>6.1.3.50</Version>
     </PackageReference>
-    <PackageReference Include="ByteSize">
-      <Version>2.1.1</Version>
-    </PackageReference>
     <PackageReference Include="Costura.Fody">
       <Version>5.7.0</Version>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="DiscordRichPresence">
-      <Version>1.0.175</Version>
+      <Version>1.1.1.14</Version>
     </PackageReference>
     <PackageReference Include="Extended.Wpf.Toolkit">
-      <Version>2.9.0</Version>
+      <Version>3.5.0</Version>
     </PackageReference>
     <PackageReference Include="MahApps.Metro">
       <Version>1.6.5</Version>
@@ -585,6 +334,7 @@
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell">
       <Version>1.1.4</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="NETStandard.Library">
       <Version>2.0.3</Version>
     </PackageReference>
@@ -597,25 +347,90 @@
     <PackageReference Include="SSH.NET">
       <Version>2020.0.2</Version>
     </PackageReference>
-    <PackageReference Include="Windows7APICodePack-Shell">
-      <Version>1.1.0</Version>
-    </PackageReference>
+    <PackageReference Include="System.Management" Version="7.0.0" />
   </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Remove="Deploy\AssemblyInfo_Template.cs" />
+    <Compile Remove="Deploy\SpcodeUpdater\obj\Release\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Remove="Deploy\SpcodeUpdater\Program.cs" />
+    <Compile Remove="Deploy\SpcodeUpdater\Properties\Resources.Designer.cs" />
+    <Compile Remove="Deploy\SpcodeUpdater\UpdateMarquee.cs" />
+    <Compile Remove="Deploy\SpcodeUpdater\UpdateMarquee.Designer.cs" />
+    <Compile Remove="SourcepawnCondenser\CondenserTest\App.xaml.cs" />
+    <Compile Remove="SourcepawnCondenser\CondenserTest\MainWindow.xaml.cs" />
+    <Compile Remove="SourcepawnCondenser\CondenserTest\obj\Release\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Remove="SourcepawnCondenser\CondenserTest\obj\Release\App.g.cs" />
+    <Compile Remove="SourcepawnCondenser\CondenserTest\obj\Release\App.g.i.cs" />
+    <Compile Remove="SourcepawnCondenser\CondenserTest\obj\Release\MainWindow.g.cs" />
+    <Compile Remove="SourcepawnCondenser\CondenserTest\obj\Release\MainWindow.g.i.cs" />
+    <Compile Remove="SourcepawnCondenser\CondenserTest\Properties\AssemblyInfo.cs" />
+    <Compile Remove="SourcepawnCondenser\CondenserTest\Properties\Resources.Designer.cs" />
+    <Compile Remove="SourcepawnCondenser\CondenserTest\Properties\Settings.Designer.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\Condenser.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\CondenserFunctions\SMClasslike.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\CondenserFunctions\SMConstantConsumer.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\CondenserFunctions\SMEnumConsumer.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\CondenserFunctions\SMEnumStructConsumer.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\CondenserFunctions\SMFunctionConsumer.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\CondenserFunctions\SMMethodmapConsumer.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\CondenserFunctions\SMPPDirectiveConsumer.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\CondenserFunctions\SMStructConsumer.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\CondenserFunctions\SMTypedefConsumer.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\CondenserFunctions\SMVariableConsumer.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\obj\Release\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\SourcemodDefinition\SMBaseDefinition.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\SourcemodDefinition\SMConstant.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\SourcemodDefinition\SMDefine.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\SourcemodDefinition\SMDefinition.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\SourcemodDefinition\SMEnum.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\SourcemodDefinition\SMEnumStruct.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\SourcemodDefinition\SMFunction.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\SourcemodDefinition\SMMethodmap.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\SourcemodDefinition\SMStruct.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\SourcemodDefinition\SMTypedef.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\SourcemodDefinition\SMVariable.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\Tokenizer\Token.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\Tokenizer\Tokenizer.cs" />
+    <Compile Remove="SourcepawnCondenser\SourcepawnCondenser\Tokenizer\TokenKind.cs" />
+    <Compile Remove="SPCodeBenchmarks\CondenserBench.cs" />
+    <Compile Remove="SPCodeBenchmarks\obj\Debug\net48\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Remove="SPCodeBenchmarks\obj\Debug\net48\SPCodeBenchmarks.AssemblyInfo.cs" />
+    <Compile Remove="SPCodeBenchmarks\obj\Debug\net48\SPCodeBenchmarks.GlobalUsings.g.cs" />
+    <Compile Remove="SPCodeBenchmarks\obj\Release\net48\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Remove="SPCodeBenchmarks\obj\Release\net48\SPCodeBenchmarks.AssemblyInfo.cs" />
+    <Compile Remove="SPCodeBenchmarks\obj\Release\net48\SPCodeBenchmarks.GlobalUsings.g.cs" />
+    <Compile Remove="SPCodeBenchmarks\Program.cs" />
+    <EmbeddedResource Remove="Deploy\SpcodeUpdater\Properties\Resources.resx" />
+    <EmbeddedResource Remove="Deploy\SpcodeUpdater\UpdateMarquee.af-ZA.resx" />
+    <EmbeddedResource Remove="Deploy\SpcodeUpdater\UpdateMarquee.resx" />
+    <EmbeddedResource Remove="SourcepawnCondenser\CondenserTest\Properties\Resources.resx" />
+    <Page Remove="SourcepawnCondenser\CondenserTest\App.xaml" />
+    <Page Remove="SourcepawnCondenser\CondenserTest\MainWindow.xaml" />
+    <Compile Remove="SPCodeBenchmarks\**" />
+    <EmbeddedResource Remove="SPCodeBenchmarks\**" />
+    <Page Remove="SPCodeBenchmarks\**" />
+    <Compile Remove="SourcepawnCondenser\**" />
+    <EmbeddedResource Remove="SourcepawnCondenser\**" />
+    <Page Remove="SourcepawnCondenser\**" />
+    <Compile Remove="Deploy\SpcodeUpdater\**" />
+    <EmbeddedResource Remove="Deploy\SpcodeUpdater\**" />
+    <Page Remove="Deploy\SpcodeUpdater\**" />
+    <Compile Remove="packages\**" />
+    <EmbeddedResource Remove="packages\**" />
+    <Page Remove="packages\**" />
+    <Compile Remove="Deploy\SpcodeUpdater.backup\**" />
+    <EmbeddedResource Remove="Deploy\SpcodeUpdater.backup\**" />
+    <Page Remove="Deploy\SpcodeUpdater.backup\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="SourcepawnCondenser\SourcepawnCondenser\SourcepawnCondenser.csproj" />
+  </ItemGroup>
   <PropertyGroup>
-    <PreBuildEvent>cd ..\..\Deploy\
+    <PreBuildEvent>cd ..\..\..\Deploy\
 prebuild.bat $(ConfigurationName)</PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>copy ..\..\Deploy\postbuild.bat .\postbuild.bat
+    <PostBuildEvent>copy ..\..\..\Deploy\postbuild.bat .\postbuild.bat
 postbuild.bat $(ConfigurationName)</PostBuildEvent>
   </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-         Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-    -->
 </Project>
