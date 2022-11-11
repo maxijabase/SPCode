@@ -51,7 +51,7 @@ namespace SPCode
         public bool Program_OpenIncludesRecursively = false;
 
         public string Program_SelectedConfig = string.Empty;
-        public string Program_Theme = "BaseDark";
+        public string Program_Theme = "Dark";
 
         public bool Program_UseHardwareAcceleration = true;
         public bool Program_UseHardwareSalts = true;
@@ -127,7 +127,7 @@ namespace SPCode
                 if (Version < 7)
                 {
                     Program_AccentColor = "Red";
-                    Program_Theme = "BaseDark";
+                    Program_Theme = "Dark";
                     NormalizeSHColors();
                 }
 

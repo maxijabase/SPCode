@@ -154,12 +154,9 @@ namespace SPCode.UI.Windows
             }
 
             Debug.Assert(DarkTheme.IsChecked != null, "DarkTheme.IsChecked != null");
-            Program.OptionsObject.Program_Theme = DarkTheme.IsChecked.Value ? "BaseDark" : "BaseLight";
-            ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor),
-                ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme));
-            ThemeManager.ChangeAppStyle(Program.MainWindow,
-                ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor),
-                ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme));
+            Program.OptionsObject.Program_Theme = DarkTheme.IsChecked.Value ? "Dark" : "Light";
+            this.ApplyTheme();
+            Program.MainWindow.ApplyTheme();
         }
 
         private void AccentColor_Changed(object sender, RoutedEventArgs e)
@@ -170,11 +167,8 @@ namespace SPCode.UI.Windows
             }
 
             Program.OptionsObject.Program_AccentColor = (string)AccentColor.SelectedItem;
-            ThemeManager.ChangeAppStyle(this, ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor),
-                ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme));
-            ThemeManager.ChangeAppStyle(Program.MainWindow,
-                ThemeManager.GetAccent(Program.OptionsObject.Program_AccentColor),
-                ThemeManager.GetAppTheme(Program.OptionsObject.Program_Theme));
+            this.ApplyTheme();
+            Program.MainWindow.ApplyTheme();
         }
 
         private void FontSize_Changed(object sender, RoutedEventArgs e)
@@ -594,7 +588,7 @@ namespace SPCode.UI.Windows
 
             ShowToolBar.IsChecked = Program.OptionsObject.UI_ShowToolBar;
             DynamicISAC.IsChecked = Program.OptionsObject.Program_DynamicISAC;
-            DarkTheme.IsChecked = Program.OptionsObject.Program_Theme == "BaseDark";
+            DarkTheme.IsChecked = Program.OptionsObject.Program_Theme == "Dark";
             for (var i = 0; i < AvailableAccents.Length; ++i)
             {
                 if (AvailableAccents[i] == Program.OptionsObject.Program_AccentColor)

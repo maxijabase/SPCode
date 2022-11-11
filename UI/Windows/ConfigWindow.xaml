@@ -8,9 +8,9 @@
                       IsMinButtonEnabled="False"
                       IsMaxRestoreButtonEnabled="False"
                       WindowStartupLocation="CenterOwner" 
-                      GlowBrush="{DynamicResource AccentColorBrush}"
+                      GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
                       Title="Configurations"
-                      TitleCaps="False"
+                      TitleCharacterCasing ="Normal"
                       ShowTitleBar="true" 
                       Closing="MetroWindow_Closing"
                       KeyDown="MetroWindow_KeyDown">
@@ -19,13 +19,13 @@
     <ResourceDictionary>
 
       <Style x:Key="ListBoxStyle" BasedOn="{StaticResource {x:Type ListBox}}" TargetType="{x:Type ListBox}">
-        <Setter Property="BorderBrush" Value="{DynamicResource TextBoxBorderBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.TextBox.Border}"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Background" Value="{DynamicResource GrayBrush10}"/>
+        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Gray10}"/>
       </Style>
 
-      <Style TargetType="ListBoxItem" BasedOn="{StaticResource MetroListBoxItem}">
-        <Setter Property="Background" Value="{DynamicResource GrayBrush10}" />
+      <Style TargetType="ListBoxItem" BasedOn="{StaticResource MahApps.Styles.ListBoxItem}">
+        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Gray10}" />
       </Style>
 
       <Style x:Key="DockPanelStyle" TargetType="DockPanel">
@@ -41,20 +41,20 @@
         <Setter Property="Margin" Value="0,5,0,5"/>
       </Style>
 
-      <Style TargetType="TextBox" BasedOn="{StaticResource MetroTextBox}">
-        <Setter Property="Background" Value="{DynamicResource GrayBrush10}"/>
+      <Style TargetType="TextBox" BasedOn="{StaticResource MahApps.Styles.TextBox}">
+        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Gray10}"/>
       </Style>
 
-      <Style TargetType="PasswordBox" BasedOn="{StaticResource MetroPasswordBox}">
-        <Setter Property="Background" Value="{DynamicResource GrayBrush10}"/>
+      <Style TargetType="PasswordBox" BasedOn="{StaticResource MahApps.Styles.PasswordBox}">
+        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Gray10}"/>
       </Style>
 
-      <Style x:Key="SearchMetroTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource SearchMetroTextBox}">
-        <Setter Property="Background" Value="{DynamicResource GrayBrush10}"/>
+      <Style x:Key="MetroTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource MahApps.Styles.TextBox.Search}">
+        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Gray10}"/>
       </Style>
 
-      <Style TargetType="ComboBox" BasedOn="{StaticResource MetroComboBox}">
-        <Setter Property="Background" Value="{DynamicResource GrayBrush10}"/>
+      <Style TargetType="ComboBox" BasedOn="{StaticResource MahApps.Styles.ComboBox}">
+        <Setter Property="Background" Value="{DynamicResource MahApps.Brushes.Gray10}"/>
       </Style>
 
       <Style TargetType="Separator">
@@ -62,7 +62,7 @@
           <Setter.Value>
             <ControlTemplate TargetType="{x:Type Separator}">
               <Rectangle Height="{TemplateBinding Height}" 
-                           Fill="{DynamicResource AccentColorBrush4}" />
+                           Fill="{DynamicResource MahApps.Brushes.Accent4}" />
             </ControlTemplate>
           </Setter.Value>
         </Setter>
@@ -75,9 +75,7 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Red.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/themes/dark.red.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </controls:MetroWindow.Resources>
@@ -131,7 +129,7 @@
       
     </Grid>
 
-    <GridSplitter Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="2" Background="{DynamicResource GrayBrush5}" />
+    <GridSplitter Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="2" Background="{DynamicResource MahApps.Brushes.Gray5}" />
 
     <Grid Grid.Column="1" Margin="5,5,0,0">
 
@@ -175,14 +173,14 @@
               <DockPanel>
                 <TextBlock Name="CopyDirBlock" IsHitTestVisible="False" />
                 <TextBox Name="C_CopyDir" Margin="50,0,0,0" TextChanged="C_CopyDir_TextChanged"
-                       Style="{DynamicResource SearchMetroTextBoxStyle}" 
+                       Style="{DynamicResource MahApps.Styles.TextBox.Search}" 
                        controls:TextBoxHelper.ButtonCommand="{Binding TextBoxButtonFolderCmd, Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
               </DockPanel>
 
               <DockPanel>
                 <TextBlock Name="ServerExeBlock" IsHitTestVisible="False" />
                 <TextBox Name="C_ServerFile" Margin="50,0,0,0" TextChanged="C_ServerFile_TextChanged"
-                       Style="{StaticResource SearchMetroTextBoxStyle}"
+                       Style="{StaticResource MahApps.Styles.TextBox.Search}"
                        controls:TextBoxHelper.ButtonCommand="{Binding TextBoxButtonFileCmd, Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" />
               </DockPanel>
 

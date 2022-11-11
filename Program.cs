@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using ControlzEx.Theming;
 using DiscordRPC;
 using ICSharpCode.AvalonEdit;
 using MahApps.Metro;
@@ -210,13 +212,13 @@ namespace SPCode
                                 if (fInfo.Exists)
                                 {
                                     var ext = fInfo.Extension.ToLowerInvariant().Trim('.', ' ');
-                                    if (ext == "sp" || ext == "inc" || ext == "txt" || ext == "smx")
+                                    if (ext is "sp" or "inc" or "txt" or "smx")
                                     {
                                         addedFiles = true;
                                         sBuilder.Append(fInfo.FullName);
                                         if (i + 1 != args.Length)
                                         {
-                                            sBuilder.Append("|");
+                                            sBuilder.Append('|');
                                         }
                                     }
                                 }
@@ -252,9 +254,9 @@ namespace SPCode
         public static void ClearUpdateFiles()
         {
             var files = Directory.GetFiles(Environment.CurrentDirectory, "*.exe", SearchOption.TopDirectoryOnly);
-            for (var i = 0; i < files.Length; ++i)
+            foreach (var t in files)
             {
-                var fInfo = new FileInfo(files[i]);
+                var fInfo = new FileInfo(t);
                 if (fInfo.Name.StartsWith("updater_", StringComparison.CurrentCultureIgnoreCase))
                 {
                     fInfo.Delete();
@@ -264,10 +266,10 @@ namespace SPCode
 
         private static void App_Startup(object sender, StartupEventArgs e)
         {
-            ThemeManager.DetectAppStyle(Application.Current);
-            ThemeManager.ChangeAppStyle(Application.Current,
-                ThemeManager.GetAccent("Green"),
-                ThemeManager.GetAppTheme("BaseDark")); // or appStyle.Item1
+            ThemeManager.Current.DetectTheme(Application.Current);
+            var theme = ThemeManager.Current;
+            theme.ChangeTheme(Application.Current, theme.GetTheme("dark.red")!);
+            theme.ChangeThemeColorScheme(Application.Current, theme.ColorSchemes.First(t => t.Equals("Green")));
         }
 
         [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members")]

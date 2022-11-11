@@ -10,7 +10,7 @@
                       MinHeight="500"
                       ResizeMode="CanResizeWithGrip" 
                       WindowStartupLocation="CenterOwner" 
-                      GlowBrush="{DynamicResource AccentColorBrush}"
+                      GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
                       TitleCharacterCasing="Normal"
                       ShowTitleBar="True" 
                       KeyDown="NewFileWind_KeyDown"
@@ -21,9 +21,7 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Red.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/themes/dark.red.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </controls:MetroWindow.Resources>
@@ -61,7 +59,7 @@
 
     </uc:EditorElement>
     <TextBox Name="PathBox" VerticalAlignment="Bottom" Margin="5,0,215,5" 
-                 Style="{StaticResource SearchMetroTextBox}"
+                 Style="{StaticResource MahApps.Styles.TextBox.Search}"
                  controls:TextBoxHelper.ButtonCommand="{Binding TextBoxButtonFileCmd, Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}" Grid.ColumnSpan="2" />
     <Button Name="SaveButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" Width="100" Click="SaveButton_Click" Grid.Column="1" />
     <Button Name="CancelButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,110,5" Width="100" Click="CancelButton_Click" Grid.Column="1" />
