@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -7,24 +8,51 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using ControlzEx.Theming;
-using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
 using MdXaml;
 using SPCode.Utils;
 using static SPCode.Interop.TranslationProvider;
+using FontFamily = System.Windows.Media.FontFamily;
 
 namespace SPCode.Interop.Updater
 {
     public partial class UpdateWindow
     {
         #region Variables
+
         private readonly UpdateInfo _updateInfo;
         public bool Succeeded;
+        private static readonly Dictionary<string, string> ColorHexMap = new()
+        {
+            { "Red", "#FF0000" },
+            { "Green", "#00FF00" },
+            { "Blue", "#0000FF" },
+            { "Purple", "#A020F0" },
+            { "Orange", "#FFA500" },
+            { "Lime", "#3fff00" },
+            { "Emerald", "#50c878" },
+            { "Teal", "#008080" },
+            { "Cyan", "#00ffff" },
+            { "Cobalt", "#0047ab" },
+            { "Indigo", "#4b0082" },
+            { "Violet", "#ee82ee" },
+            { "Pink", "#ffc0cb" },
+            { "Magenta", "#ff00ff" },
+            { "Crimson", "#dc143c" },
+            { "Amber", "#ffbf00" },
+            { "Yellow", "#ffff00" },
+            { "Brown", "#a52a2a" },
+            { "Olive", "#808000" },
+            { "Steel", "#4682b4" },
+            { "Mauve", "#e0b0ff" },
+            { "Taupe", "#483c32" },
+            { "Sienna", "#882d17" }
+        };
+
         #endregion
 
         #region Constructors
+
         public UpdateWindow()
         {
             InitializeComponent();
@@ -36,11 +64,12 @@ namespace SPCode.Interop.Updater
 
             _updateInfo = info;
             PrepareUpdateWindow(OnlyChangelog);
-
         }
+
         #endregion
 
         #region Events
+
         private void ActionYesButton_Click(object sender, RoutedEventArgs e)
         {
             StartUpdate();
@@ -63,9 +92,11 @@ namespace SPCode.Interop.Updater
                 Close();
             }
         }
+
         #endregion
 
         #region Methods
+
         /// <summary>
         /// Prepares the update window with all the necessary info.
         /// </summary>
@@ -83,7 +114,8 @@ namespace SPCode.Interop.Updater
             else
             {
                 Title = string.Format(Translate("VersionAvailable"), _updateInfo.AllReleases[0].TagName);
-                MainLine.Text = string.Format(Translate("WantToUpdate"), NamesHelper.VersionString, _updateInfo.AllReleases[0].TagName);
+                MainLine.Text = string.Format(Translate("WantToUpdate"), NamesHelper.VersionString,
+                    _updateInfo.AllReleases[0].TagName);
                 ActionYesButton.Content = Translate("Yes");
                 ActionNoButton.Content = Translate("No");
                 ActionGithubButton.Content = Translate("ViewGithub");
@@ -153,6 +185,7 @@ namespace SPCode.Interop.Updater
                 {
                     File.Delete(portable.Name);
                 }
+
                 using var client = new WebClient();
                 client.DownloadFile(updater.BrowserDownloadUrl, updater.Name);
                 client.DownloadFile(portable.BrowserDownloadUrl, portable.Name);
@@ -183,9 +216,7 @@ namespace SPCode.Interop.Updater
             {
                 Process.Start(new ProcessStartInfo
                 {
-                    Arguments = "/C SPCodeUpdater.exe",
-                    FileName = "cmd",
-                    WindowStyle = ProcessWindowStyle.Hidden
+                    Arguments = "/C SPCodeUpdater.exe", FileName = "cmd", WindowStyle = ProcessWindowStyle.Hidden
                 });
                 Succeeded = true;
             }
@@ -206,10 +237,7 @@ namespace SPCode.Interop.Updater
         /// <returns></returns>
         private string GetAccentHex()
         {
-            return "#FFAFFF";
-           //var theme = ThemeManager.Current.DetectTheme(this)!;
-           //theme
-           //return.Resources["AccentColor"].ToString();
+            return ColorHexMap.TryGetValue(Program.OptionsObject.Program_AccentColor, out var hex) ? hex : "#FFF";
         }
 
         /// <summary>
@@ -222,6 +250,7 @@ namespace SPCode.Interop.Updater
             var date = dateOff.DateTime.ToString("MMMM dd, yyyy", CultureInfo.GetCultureInfo("en-US"));
             return char.ToUpper(date[0]) + date.Substring(1);
         }
+
         #endregion
     }
 }

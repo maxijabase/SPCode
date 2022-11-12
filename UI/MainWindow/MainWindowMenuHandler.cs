@@ -217,7 +217,10 @@ namespace SPCode.UI
 
         private void Menu_Help(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(Constants.GitHubWiki));
+            Process.Start(new ProcessStartInfo(Constants.GitHubWiki)
+            {
+                UseShellExecute = true
+            });
         }
 
         private void Menu_OpenSPDef(object sender, RoutedEventArgs e)
