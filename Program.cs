@@ -4,10 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using System.Runtime;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -17,7 +16,6 @@ using ICSharpCode.AvalonEdit;
 using SPCode.Interop;
 using SPCode.Interop.Updater;
 using SPCode.UI;
-using SPCode.UI.Interop;
 using SPCode.Utils;
 
 namespace SPCode;
@@ -53,80 +51,86 @@ public static class Program
 #if !DEBUG
                 try
                 {
+#else
+                [DllImport("kernel32.dll", SetLastError = true)]
+                [return: MarshalAs(UnmanagedType.Bool)]
+                static extern bool AllocConsole();
+                // Create console window for debugging & testing
+                AllocConsole();
 #endif
-                    var splashScreen = new SplashScreen("Resources/Icons/icon256x.png");
-                    splashScreen.Show(false, true);
-                    Environment.CurrentDirectory =
-                        Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ??
-                        throw new NullReferenceException();
+                var splashScreen = new SplashScreen("Resources/Icons/icon256x.png");
+                splashScreen.Show(false, true);
+                Environment.CurrentDirectory =
+                    Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) ??
+                    throw new NullReferenceException();
 #if !DEBUG
                     ProfileOptimization.SetProfileRoot(Environment.CurrentDirectory);
                     ProfileOptimization.StartProfile("Startup.Profile");
 #endif
-                    UpdateStatus = new UpdateInfo();
-                    OptionsObject = OptionsControl.Load(out var ProgramIsNew);
+                UpdateStatus = new UpdateInfo();
+                OptionsObject = OptionsControl.Load(out var ProgramIsNew);
 
-                    if (!File.Exists(Constants.HotkeysFile))
+                if (!File.Exists(Constants.HotkeysFile))
+                {
+                    HotkeyControl.CreateDefaultHotkeys();
+                }
+                else
+                {
+                    HotkeyControl.CheckAndBufferHotkeys();
+                }
+
+                // Delete the default Ctrl+D hotkey to assign manually
+                AvalonEditCommands.DeleteLine.InputGestures.Clear();
+
+                if (OptionsObject.Program_DiscordPresence)
+                {
+                    // Init Discord RPC
+                    DiscordClient.Initialize();
+
+                    // Set default presence
+                    DiscordClient.SetPresence(new RichPresence
                     {
-                        HotkeyControl.CreateDefaultHotkeys();
-                    }
-                    else
-                    {
-                        HotkeyControl.CheckAndBufferHotkeys();
-                    }
-
-                    // Delete the default Ctrl+D hotkey to assign manually
-                    AvalonEditCommands.DeleteLine.InputGestures.Clear();
-
-                    if (OptionsObject.Program_DiscordPresence)
-                    {
-                        // Init Discord RPC
-                        DiscordClient.Initialize();
-
-                        // Set default presence
-                        DiscordClient.SetPresence(new RichPresence
+                        State = "Idle",
+                        Timestamps = DiscordTime,
+                        Assets = new Assets { LargeImageKey = "immagine" },
+                        Buttons = new Button[]
                         {
-                            State = "Idle",
-                            Timestamps = DiscordTime,
-                            Assets = new Assets { LargeImageKey = "immagine" },
-                            Buttons = new Button[]
+                            new Button()
                             {
-                                new Button()
-                                {
-                                    Label = Constants.GetSPCodeText, Url = Constants.GitHubLatestRelease
-                                }
+                                Label = Constants.GetSPCodeText, Url = Constants.GitHubLatestRelease
                             }
-                        });
-                    }
-
-                    // Set up translations
-                    Translations = new TranslationProvider();
-                    Translations.LoadLanguage(OptionsObject.Language, true);
-
-                    // Check startup arguments for -rcck
-                    foreach (var arg in args)
-                    {
-                        if (arg.ToLowerInvariant() == "-rcck") //ReCreateCryptoKey
-                        {
-                            OptionsObject.ReCreateCryptoKey();
-                            MakeRCCKAlert();
                         }
-                    }
+                    });
+                }
 
-                    Configs = ConfigLoader.Load();
-                    for (var i = 0; i < Configs.Count; ++i)
-                    {
-                        if (Configs[i].Name == OptionsObject.Program_SelectedConfig)
-                        {
-                            SelectedConfig = i;
-                            break;
-                        }
-                    }
+                // Set up translations
+                Translations = new TranslationProvider();
+                Translations.LoadLanguage(OptionsObject.Language, true);
 
-                    if (!OptionsObject.Program_UseHardwareAcceleration)
+                // Check startup arguments for -rcck
+                foreach (var arg in args)
+                {
+                    if (arg.ToLowerInvariant() == "-rcck") //ReCreateCryptoKey
                     {
-                        RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+                        OptionsObject.ReCreateCryptoKey();
+                        MakeRCCKAlert();
                     }
+                }
+
+                Configs = ConfigLoader.Load();
+                for (var i = 0; i < Configs.Count; ++i)
+                {
+                    if (Configs[i].Name == OptionsObject.Program_SelectedConfig)
+                    {
+                        SelectedConfig = i;
+                        break;
+                    }
+                }
+
+                if (!OptionsObject.Program_UseHardwareAcceleration)
+                {
+                    RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+                }
 #if !DEBUG
                     if (ProgramIsNew)
                     {
@@ -148,9 +152,9 @@ public static class Program
                         }
                     }
 #endif
-                    MainWindow = new MainWindow(splashScreen);
-                    var pipeServer = new PipeInteropServer(MainWindow);
-                    pipeServer.Start();
+                MainWindow = new MainWindow(splashScreen);
+                var pipeServer = new PipeInteropServer(MainWindow);
+                pipeServer.Start();
 #if !DEBUG
                 }
                 catch (Exception e)
@@ -176,9 +180,9 @@ public static class Program
                         Task.Run(UpdateCheck.Check);
                     }
 #endif
-                    app.Startup += App_Startup;
-                    app.Run(MainWindow);
-                    OptionsControl.Save();
+                app.Startup += App_Startup;
+                app.Run(MainWindow);
+                OptionsControl.Save();
 #if !DEBUG
                 }
                 catch (Exception e)
