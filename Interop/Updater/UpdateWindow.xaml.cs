@@ -14,243 +14,199 @@ using SPCode.Utils;
 using static SPCode.Interop.TranslationProvider;
 using FontFamily = System.Windows.Media.FontFamily;
 
-namespace SPCode.Interop.Updater
+namespace SPCode.Interop.Updater;
+
+public partial class UpdateWindow
 {
-    public partial class UpdateWindow
+    #region Variables
+    private readonly UpdateInfo _updateInfo;
+    public bool Succeeded;
+    #endregion
+
+    #region Constructors
+    public UpdateWindow()
     {
-        #region Variables
+        InitializeComponent();
+    }
 
-        private readonly UpdateInfo _updateInfo;
-        public bool Succeeded;
-        private static readonly Dictionary<string, string> ColorHexMap = new()
-        {
-            { "Red", "#FF0000" },
-            { "Green", "#00FF00" },
-            { "Blue", "#0000FF" },
-            { "Purple", "#A020F0" },
-            { "Orange", "#FFA500" },
-            { "Lime", "#3fff00" },
-            { "Emerald", "#50c878" },
-            { "Teal", "#008080" },
-            { "Cyan", "#00ffff" },
-            { "Cobalt", "#0047ab" },
-            { "Indigo", "#4b0082" },
-            { "Violet", "#ee82ee" },
-            { "Pink", "#ffc0cb" },
-            { "Magenta", "#ff00ff" },
-            { "Crimson", "#dc143c" },
-            { "Amber", "#ffbf00" },
-            { "Yellow", "#ffff00" },
-            { "Brown", "#a52a2a" },
-            { "Olive", "#808000" },
-            { "Steel", "#4682b4" },
-            { "Mauve", "#e0b0ff" },
-            { "Taupe", "#483c32" },
-            { "Sienna", "#882d17" }
-        };
+    public UpdateWindow(UpdateInfo info, bool OnlyChangelog = false) : this()
+    {
+        this.ApplyTheme();
 
-        #endregion
+        _updateInfo = info;
+        PrepareUpdateWindow(OnlyChangelog);
+    }
+    #endregion
 
-        #region Constructors
+    #region Events
+    private void ActionYesButton_Click(object sender, RoutedEventArgs e)
+    {
+        StartUpdate();
+    }
 
-        public UpdateWindow()
-        {
-            InitializeComponent();
-        }
+    private void ActionNoButton_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
 
-        public UpdateWindow(UpdateInfo info, bool OnlyChangelog = false) : this()
-        {
-            this.ApplyTheme();
+    private void ActionGithubButton_Click(object sender, RoutedEventArgs e)
+    {
+        Process.Start(new ProcessStartInfo(Constants.GitHubLatestRelease));
+    }
 
-            _updateInfo = info;
-            PrepareUpdateWindow(OnlyChangelog);
-        }
-
-        #endregion
-
-        #region Events
-
-        private void ActionYesButton_Click(object sender, RoutedEventArgs e)
-        {
-            StartUpdate();
-        }
-
-        private void ActionNoButton_Click(object sender, RoutedEventArgs e)
+    private void MetroWindow_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Escape)
         {
             Close();
         }
+    }
+    #endregion
 
-        private void ActionGithubButton_Click(object sender, RoutedEventArgs e)
+    #region Methods
+    /// <summary>
+    /// Prepares the update window with all the necessary info.
+    /// </summary>
+    public void PrepareUpdateWindow(bool OnlyChangelog = false)
+    {
+        if (OnlyChangelog)
         {
-            Process.Start(new ProcessStartInfo(Constants.GitHubLatestRelease));
-        }
-
-        private void MetroWindow_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape)
-            {
-                Close();
-            }
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Prepares the update window with all the necessary info.
-        /// </summary>
-        public void PrepareUpdateWindow(bool OnlyChangelog = false)
-        {
-            if (OnlyChangelog)
-            {
-                Title = "SPCode Changelog";
-                MainLine.Visibility = Visibility.Hidden;
-                ActionYesButton.Visibility = Visibility.Hidden;
-                ActionNoButton.Visibility = Visibility.Hidden;
-                ActionGithubButton.Visibility = Visibility.Hidden;
-                DescriptionBox.Margin = new Thickness(0, 0, 0, 0);
-            }
-            else
-            {
-                Title = string.Format(Translate("VersionAvailable"), _updateInfo.AllReleases[0].TagName);
-                MainLine.Text = string.Format(Translate("WantToUpdate"), NamesHelper.VersionString,
-                    _updateInfo.AllReleases[0].TagName);
-                ActionYesButton.Content = Translate("Yes");
-                ActionNoButton.Content = Translate("No");
-                ActionGithubButton.Content = Translate("ViewGithub");
-            }
-
-            var releasesBody = new StringBuilder();
-
-            if (_updateInfo.AllReleases != null && _updateInfo.AllReleases.Count > 0)
-            {
-                foreach (var release in _updateInfo.AllReleases)
-                {
-                    releasesBody.Append($"**%{{color:{GetAccentHex()}}}Version {release.TagName}%** ");
-                    releasesBody.AppendLine($"*%{{color:gray}}({MonthToTitlecase(release.CreatedAt)})% *\r\n");
-                    releasesBody.AppendLine(release.Body + "\r\n");
-                }
-            }
-
-            releasesBody.Append($"*%{{color:gray}}More releases in {Constants.GitHubReleases}%*");
-
-            var document = new Markdown();
-            var content = document.Transform(releasesBody.ToString());
-            content.FontFamily = new FontFamily("Segoe UI");
-            DescriptionBox.Document = content;
-
-            if (_updateInfo.SkipDialog)
-            {
-                StartUpdate();
-            }
-        }
-
-        /// <summary>
-        /// Triggers the update process
-        /// </summary>
-        private void StartUpdate()
-        {
-            if (_updateInfo == null)
-            {
-                Close();
-                return;
-            }
-
+            Title = "SPCode Changelog";
+            MainLine.Visibility = Visibility.Hidden;
             ActionYesButton.Visibility = Visibility.Hidden;
             ActionNoButton.Visibility = Visibility.Hidden;
             ActionGithubButton.Visibility = Visibility.Hidden;
-            MainLine.Text = string.Format(Translate("UpdatingTo"), _updateInfo.AllReleases[0].TagName);
-            SubLine.Text = Translate("DownloadingUpdater");
-            var t = new Thread(UpdateDownloadWorker);
-            t.Start();
+            DescriptionBox.Margin = new Thickness(0, 0, 0, 0);
         }
-
-        /// <summary>
-        /// Download worker in charge of downloading the updater asset.
-        /// </summary>
-        private void UpdateDownloadWorker()
+        else
         {
-            var updater = _updateInfo.Updater;
-            var portable = _updateInfo.Portable;
-
-            try
-            {
-                if (File.Exists(updater.Name))
-                {
-                    File.Delete(updater.Name);
-                }
-
-                if (File.Exists(portable.Name))
-                {
-                    File.Delete(portable.Name);
-                }
-
-                using var client = new WebClient();
-                client.DownloadFile(updater.BrowserDownloadUrl, updater.Name);
-                client.DownloadFile(portable.BrowserDownloadUrl, portable.Name);
-            }
-            catch (Exception ex)
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    Program.MainWindow.ShowMessageAsync("Error while downloading the update assets",
-                        $"{ex.Message}", MessageDialogStyle.Affirmative, Program.MainWindow.MetroDialogOptions);
-                    Close();
-                });
-                return;
-            }
-
-            Thread.Sleep(100);
-            Dispatcher.Invoke(FinalizeUpdate);
+            Title = string.Format(Translate("VersionAvailable"), _updateInfo.AllReleases[0].TagName);
+            MainLine.Text = string.Format(Translate("WantToUpdate"), NamesHelper.VersionString, _updateInfo.AllReleases[0].TagName);
+            ActionYesButton.Content = Translate("Yes");
+            ActionNoButton.Content = Translate("No");
+            ActionGithubButton.Content = Translate("ViewGithub");
         }
+        var releasesBody = new StringBuilder();
 
-        /// <summary>
-        /// Dowload finalized callback
-        /// </summary>
-        private void FinalizeUpdate()
+        if (_updateInfo.AllReleases != null && _updateInfo.AllReleases.Count > 0)
         {
-            SubLine.Text = Translate("StartingUpdater");
-            UpdateLayout();
-            try
+            var color = ThemeManager.Current.DetectTheme().PrimaryAccentColor.ToString();
+            foreach (var release in _updateInfo.AllReleases)
             {
-                Process.Start(new ProcessStartInfo
-                {
-                    Arguments = "/C SPCodeUpdater.exe", FileName = "cmd", WindowStyle = ProcessWindowStyle.Hidden
-                });
-                Succeeded = true;
+                releasesBody.Append($"**%{{color:{color}}}Version {release.TagName}%** ");
+                releasesBody.AppendLine($"*%{{color:gray}}({MonthToTitlecase(release.CreatedAt)})% *\r\n");
+                releasesBody.AppendLine(release.Body + "\r\n");
             }
-            catch (Exception e)
-            {
-                MessageBox.Show(
-                    "Error while trying to start the updater." + Environment.NewLine + "Details: " + e.Message +
-                    Environment.NewLine + "$$$" + e.StackTrace,
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
-
-            Close();
         }
 
-        /// <summary>
-        /// Transforms the current accent color into the hex color format.
-        /// </summary>
-        /// <returns></returns>
-        private string GetAccentHex()
+        releasesBody.Append($"*%{{color:gray}}More releases in {Constants.GitHubReleases}%*");
+
+        var document = new Markdown();
+        var content = document.Transform(releasesBody.ToString());
+        content.FontFamily = new FontFamily("Segoe UI");
+        DescriptionBox.Document = content;
+
+        if (_updateInfo.SkipDialog)
         {
-            return ColorHexMap.TryGetValue(Program.OptionsObject.Program_AccentColor, out var hex) ? hex : "#FFF";
+            StartUpdate();
         }
-
-        /// <summary>
-        /// Returns the specified DateTimeOffset into a MMMM dd, yyyy with the month's initial letter in uppercase.
-        /// </summary>
-        /// <param name="dateOff"></param>
-        /// <returns></returns>
-        private static string MonthToTitlecase(DateTimeOffset dateOff)
-        {
-            var date = dateOff.DateTime.ToString("MMMM dd, yyyy", CultureInfo.GetCultureInfo("en-US"));
-            return char.ToUpper(date[0]) + date.Substring(1);
-        }
-
-        #endregion
     }
+
+    /// <summary>
+    /// Triggers the update process
+    /// </summary>
+    private void StartUpdate()
+    {
+        if (_updateInfo == null)
+        {
+            Close();
+            return;
+        }
+
+        ActionYesButton.Visibility = Visibility.Hidden;
+        ActionNoButton.Visibility = Visibility.Hidden;
+        ActionGithubButton.Visibility = Visibility.Hidden;
+        MainLine.Text = string.Format(Translate("UpdatingTo"), _updateInfo.AllReleases[0].TagName);
+        SubLine.Text = Translate("DownloadingUpdater");
+        var t = new Thread(UpdateDownloadWorker);
+        t.Start();
+    }
+
+    /// <summary>
+    /// Download worker in charge of downloading the updater asset.
+    /// </summary>
+    private void UpdateDownloadWorker()
+    {
+        var updater = _updateInfo.Updater;
+        var portable = _updateInfo.Portable;
+
+        try
+        {
+            if (File.Exists(updater.Name))
+            {
+                File.Delete(updater.Name);
+            }
+
+            if (File.Exists(portable.Name))
+            {
+                File.Delete(portable.Name);
+            }
+            using var client = new WebClient();
+            client.DownloadFile(updater.BrowserDownloadUrl, updater.Name);
+            client.DownloadFile(portable.BrowserDownloadUrl, portable.Name);
+        }
+        catch (Exception ex)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                Program.MainWindow.ShowMessageAsync("Error while downloading the update assets",
+                    $"{ex.Message}", MessageDialogStyle.Affirmative, Program.MainWindow.MetroDialogOptions);
+                Close();
+            });
+            return;
+        }
+
+        Thread.Sleep(100);
+        Dispatcher.Invoke(FinalizeUpdate);
+    }
+
+    /// <summary>
+    /// Dowload finalized callback
+    /// </summary>
+    private void FinalizeUpdate()
+    {
+        SubLine.Text = Translate("StartingUpdater");
+        UpdateLayout();
+        try
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                Arguments = "/C SPCodeUpdater.exe",
+                FileName = "cmd",
+                WindowStyle = ProcessWindowStyle.Hidden
+            });
+            Succeeded = true;
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show(
+                "Error while trying to start the updater." + Environment.NewLine + "Details: " + e.Message +
+                Environment.NewLine + "$$$" + e.StackTrace,
+                "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
+        
+        Close();
+    }
+
+    /// <summary>
+    /// Returns the specified DateTimeOffset into a MMMM dd, yyyy with the month's initial letter in uppercase.
+    /// </summary>
+    /// <param name="dateOff"></param>
+    /// <returns></returns>
+    private static string MonthToTitlecase(DateTimeOffset dateOff)
+    {
+        var date = dateOff.DateTime.ToString("MMMM dd, yyyy", CultureInfo.GetCultureInfo("en-US"));
+        return char.ToUpper(date[0]) + date[1..];
+    }
+    #endregion
 }
