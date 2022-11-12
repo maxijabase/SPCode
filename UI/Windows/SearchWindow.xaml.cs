@@ -7,10 +7,10 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using AvalonDock.Layout;
 using MahApps.Metro.Controls;
 using SPCode.UI.Components;
 using SPCode.Utils;
-using Xceed.Wpf.AvalonDock.Layout;
 using static SPCode.Interop.TranslationProvider;
 
 namespace SPCode.UI.Windows;

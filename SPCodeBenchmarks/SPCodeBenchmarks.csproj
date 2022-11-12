@@ -23,6 +23,9 @@
       <PackageReference Include="BenchmarkDotNet">
         <Version>0.13.2</Version>
       </PackageReference>
+      <PackageReference Include="Dirkster.AvalonDock.Themes.Metro">
+        <Version>4.70.3</Version>
+      </PackageReference>
     </ItemGroup>
 	
 

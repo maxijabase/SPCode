@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using AvalonDock.Layout;
 using ICSharpCode.AvalonEdit.Document;
 using ICSharpCode.AvalonEdit.Editing;
 using ICSharpCode.AvalonEdit.Folding;
@@ -21,7 +22,6 @@ using SourcepawnCondenser;
 using SourcepawnCondenser.SourcemodDefinition;
 using SPCode.Utils;
 using SPCode.Utils.SPSyntaxTidy;
-using Xceed.Wpf.AvalonDock.Layout;
 using static SPCode.Interop.TranslationProvider;
 using Timer = System.Timers.Timer;
 

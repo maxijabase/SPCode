@@ -374,12 +374,12 @@
           <ColumnDefinition x:Name="ObjectBrowserColumn" Width="300" MinWidth="3"
                             MaxWidth="{Binding ActualHeight, ElementName=metroWindow, Mode=OneWay}" />
         </Grid.ColumnDefinitions>
-        <dock:DockingManager Grid.Column="0" x:Name="DockingManager" Margin="0,0,5,0" AllowMixedOrientation="True"
+        <DockingManager Grid.Column="0" x:Name="DockingManager" Margin="0,0,5,0" AllowMixedOrientation="True"
                              Background="{DynamicResource MahApps.Brushes.ThemeBackground}"
                              Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
                              ActiveContentChanged="DockingManager_ActiveContentChanged"
                              DocumentClosed="DockingManager_DocumentClosed">
-          <dock:DockingManager.Resources>
+          <DockingManager.Resources>
             <SolidColorBrush x:Key="AvalonDock_ThemeMetro_BaseColor1" 
                              Color="{DynamicResource MahApps.Colors.ThemeForeground}"/>
 
@@ -409,20 +409,20 @@
 
             <SolidColorBrush x:Key="AvalonDock_ThemeMetro_BaseColor33"
                              Color="{DynamicResource MahApps.Colors.ThemeBackground}"/>
-          </dock:DockingManager.Resources>
-          <dock:DockingManager.Theme>
-            <dock:MetroTheme />
-          </dock:DockingManager.Theme>
+          </DockingManager.Resources>
+          <DockingManager.Theme>
+            <MetroTheme/>
+          </DockingManager.Theme>
           
-          <dock:LayoutRoot>
-            <dock:LayoutPanel>
-              <dock:LayoutDocumentPaneGroup x:Name="DockingPaneGroup"
+          <LayoutRoot>
+            <LayoutPanel>
+              <LayoutDocumentPaneGroup x:Name="DockingPaneGroup"
                                             ChildrenTreeChanged="DockingPaneGroup_ChildrenTreeChanged">
-                <dock:LayoutDocumentPane x:Name="DockingPane" />
-              </dock:LayoutDocumentPaneGroup>
-            </dock:LayoutPanel>
-          </dock:LayoutRoot>
-        </dock:DockingManager>
+                <LayoutDocumentPane x:Name="DockingPane" />
+              </LayoutDocumentPaneGroup>
+            </LayoutPanel>
+          </LayoutRoot>
+        </DockingManager>
         <GridSplitter Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Stretch" Width="5"
                       Background="{DynamicResource MahApps.Brushes.Gray5}" />
         <TreeView Grid.Column="1" x:Name="ObjectBrowser" TreeViewItem.Expanded="TreeViewOBItem_Expanded"

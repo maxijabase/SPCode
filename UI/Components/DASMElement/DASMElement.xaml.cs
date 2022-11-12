@@ -5,8 +5,8 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using AvalonDock.Layout;
 using smxdasm;
-using Xceed.Wpf.AvalonDock.Layout;
 using static SPCode.Interop.TranslationProvider;
 
 namespace SPCode.UI.Components;

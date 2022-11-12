@@ -12,14 +12,14 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
+using AvalonDock;
+using AvalonDock.Layout;
 using DiscordRPC;
 using MahApps.Metro.Controls.Dialogs;
 using SPCode.Interop;
 using SPCode.Interop.Updater;
 using SPCode.UI.Components;
 using SPCode.Utils;
-using Xceed.Wpf.AvalonDock;
-using Xceed.Wpf.AvalonDock.Layout;
 using static SPCode.Interop.TranslationProvider;
 using Button = DiscordRPC.Button;
 

@@ -31,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Costura.Fody" Version="5.7.0" />
+    <PackageReference Include="Dirkster.AvalonDock.Themes.Metro" Version="4.70.3" />
     <PackageReference Include="Fody" Version="6.6.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

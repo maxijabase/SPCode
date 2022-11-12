@@ -22,6 +22,7 @@
     <ProjectReference Include="..\SourcepawnCondenser\SourcepawnCondenser.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Dirkster.AvalonDock.Themes.Metro" Version="4.70.3" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>

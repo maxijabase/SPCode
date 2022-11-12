@@ -9,10 +9,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Xml;
+using AvalonDock.Layout;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Win32;
 using SPCode.Utils;
-using Xceed.Wpf.AvalonDock.Layout;
 using static SPCode.Interop.TranslationProvider;
 
 namespace SPCode.UI.Windows;
