@@ -447,6 +447,7 @@ namespace SPCode.UI
                 Title = editorTitle,
                 ToolTip = fInfo.FullName
             };
+            
             editor = new EditorElement(fInfo.FullName) { Parent = layoutDocument };
             layoutDocument.Content = editor;
             EditorReferences.Add(editor);

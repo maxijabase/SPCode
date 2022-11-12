@@ -71,10 +71,8 @@ namespace SPCode.UI.Components
             get => _NeedsSave;
             set
             {
-                if (!(value ^ _NeedsSave)) //when not changed
-                {
+                if (_NeedsSave == value) //when not changed
                     return;
-                }
 
                 _NeedsSave = value;
                 if (Parent != null)
