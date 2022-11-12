@@ -28,7 +28,7 @@ public class EditorIndentationStrategy : IIndentationStrategy
                 var lastLineLastNonWhitespaceChar = ' ';
                 if (lastLineTextTrimmed.Length > 0)
                 {
-                    lastLineLastNonWhitespaceChar = lastLineTextTrimmed[lastLineTextTrimmed.Length - 1];
+                    lastLineLastNonWhitespaceChar = lastLineTextTrimmed[^1];
                 }
                 if (lastLineLastNonWhitespaceChar == '{' && currentLineFirstNonWhitespaceChar != '}')
                 {
@@ -38,7 +38,7 @@ public class EditorIndentationStrategy : IIndentationStrategy
                 {
                     if (indentation.Length > 0)
                     {
-                        indentation = indentation.Substring(0, indentation.Length) + Program.Indentation + "\n" + indentation.Substring(0, indentation.Length);
+                        indentation = indentation[..] + Program.Indentation + "\n" + indentation[..];
                     }
                     else if (lastLineLastNonWhitespaceChar == '{')
                     {

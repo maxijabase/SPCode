@@ -69,7 +69,7 @@ public partial class ColorChangeControl : UserControl
         var parseString = BrushRect.Text.Trim();
         if (parseString.StartsWith("0x", System.StringComparison.InvariantCultureIgnoreCase) && parseString.Length > 2)
         {
-            parseString = parseString.Substring(2);
+            parseString = parseString[2..];
         }
         if (int.TryParse(parseString, System.Globalization.NumberStyles.HexNumber, System.Globalization.CultureInfo.InvariantCulture, out var result))
         { 

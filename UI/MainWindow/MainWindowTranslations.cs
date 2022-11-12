@@ -11,7 +11,7 @@ public partial class MainWindow
     {
         CompileButtonDict = new () { Translate("CompileAll"), Translate("CompileCurrent") };
         ActionButtonDict = new () { Translate("Copy"), Translate("UploadFTP"), Translate("StartServer") };
-        ((MenuItem)ConfigMenu.Items[ConfigMenu.Items.Count - 1]).Header = Translate("EditConfig");
+        ((MenuItem)ConfigMenu.Items[^1]).Header = Translate("EditConfig");
         if (EditorReferences.Any())
         {
             foreach (var editor in EditorReferences)
@@ -87,7 +87,7 @@ public partial class MainWindow
         {
             if (child is Button btn)
             {
-                btn.ToolTip = Translate(btn.Name.Substring(3));
+                btn.ToolTip = Translate(btn.Name[3..]);
             }
         }
 
@@ -95,7 +95,7 @@ public partial class MainWindow
         {
             if (child is Button btn)
             {
-                btn.ToolTip = Translate(btn.Name.Substring(3));
+                btn.ToolTip = Translate(btn.Name[3..]);
             }
         }
 

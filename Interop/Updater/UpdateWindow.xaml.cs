@@ -220,7 +220,7 @@ public partial class UpdateWindow
     private static string MonthToTitlecase(DateTimeOffset dateOff)
     {
         var date = dateOff.DateTime.ToString("MMMM dd, yyyy", CultureInfo.GetCultureInfo("en-US"));
-        return char.ToUpper(date[0]) + date.Substring(1);
+        return char.ToUpper(date[0]) + date[1..];
     }
     #endregion
 }

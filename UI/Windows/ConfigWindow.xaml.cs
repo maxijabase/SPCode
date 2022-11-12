@@ -207,7 +207,7 @@ public partial class ConfigWindow
             return;
         }
 
-        SelectedBox.AppendText(content.Substring(0, content.IndexOf('}') + 1));
+        SelectedBox.AppendText(content[..(content.IndexOf('}') + 1)]);
         var item = new ComboBoxItem()
         {
             Visibility = Visibility.Collapsed,
@@ -226,7 +226,7 @@ public partial class ConfigWindow
             return;
         }
 
-        C_RConCmds.AppendText(content.Substring(0, content.IndexOf('}') + 1));
+        C_RConCmds.AppendText(content[..(content.IndexOf('}') + 1)]);
         var item = new ComboBoxItem()
         {
             Visibility = Visibility.Collapsed,

@@ -65,6 +65,7 @@ public partial class MainWindow
     /// </summary>
     private void LoadCommandsDictionary()
     {
+#pragma warning disable CS1062 // El mejor método Add sobrecargado 'MainWindow.FTPUpload_Plugins()' para el elemento inicializador de la colección está obsoleto. Obsolete
         Commands = new()
         {
             { "New", Command_New },
@@ -99,6 +100,7 @@ public partial class MainWindow
             { "StartServer", Server_Start },
             { "SendRCON", Server_Query },
         };
+#pragma warning restore CS1062 // El mejor método Add sobrecargado 'MainWindow.FTPUpload_Plugins()' para el elemento inicializador de la colección está obsoleto. Obsolete
     }
     #endregion
 }

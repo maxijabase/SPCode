@@ -346,7 +346,9 @@ public partial class MainWindow
                     {
                         ProgressTask.SetTitle(Translate("FTPUploading") + "...");
                         ProgressTask.SetIndeterminate();
+#pragma warning disable CS0618 // 'MainWindow.FTPUpload_Plugins()' está obsoleto: 'Obsolete'
                         await Task.Run(FTPUpload_Plugins);
+#pragma warning restore CS0618 // 'MainWindow.FTPUpload_Plugins()' está obsoleto: 'Obsolete'
                         ProgressTask.SetProgress(1.0);
                     }
 
@@ -598,7 +600,7 @@ public partial class MainWindow
     {
         if (fileName.EndsWith(".sp", StringComparison.InvariantCultureIgnoreCase))
         {
-            return fileName.Substring(0, fileName.Length - 3);
+            return fileName[..^3];
         }
 
         return fileName;

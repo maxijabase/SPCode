@@ -1,6 +1,8 @@
-﻿namespace SourcepawnCondenser.SourcemodDefinition;
+﻿using System;
+
+namespace SourcepawnCondenser.SourcemodDefinition;
 
 public class SMEnum : SMBaseDefinition
 {
-    public string[] Entries = new string[0];
+    public string[] Entries = Array.Empty<string>();
 }

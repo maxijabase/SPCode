@@ -429,7 +429,7 @@ public partial class EditorElement
                     var endIndex = trimText.IndexOf(" ", StringComparison.Ordinal);
                     if (endIndex == -1)
                         endIndex = trimText.Length;
-                    statement = trimText.Substring(1, endIndex - 1);
+                    statement = trimText[1..endIndex];
                 }
 
 
@@ -504,7 +504,7 @@ public partial class EditorElement
                 dotOffset = i;
             }
 
-            var methodString = text.Substring(dotOffset, lineOffset - dotOffset);
+            var methodString = text[dotOffset..lineOffset];
             if (methodString == ".")
             {
                 dotOffset++;
@@ -581,7 +581,7 @@ public partial class EditorElement
             }
 
             // Match MethodMap initializations.
-            var match = NewRegex.Match(text.Substring(0, lineOffset));
+            var match = NewRegex.Match(text[..lineOffset]);
             if (match.Success)
             {
                 var isNodes = ACNode.ConvertFromStringList(_smDef.Methodmaps.Select(e => e.Name), true, "• ")

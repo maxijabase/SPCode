@@ -77,12 +77,15 @@ public partial class DASMElement : UserControl
         foreach (var section_ in file_.Header.Sections)
         {
             var section = section_;
-            var root = new TreeViewItem() { Header = section.Name };
-            root.Tag = new NodeData(delegate ()
+            var root = new TreeViewItem
+            {
+                Header = section.Name,
+                Tag = new NodeData(delegate ()
             {
                 RenderSectionHeaderDetail(section);
                 EndDetailUpdate();
-            }, section);
+            }, section)
+            };
 
             roots[section.Name] = root;
             treeview_.Items.Add(root);
@@ -223,8 +226,8 @@ public partial class DASMElement : UserControl
             }
             else if (i % 8 == 0)
             {
-                detail_buffer_.Append(" ");
-                chars.Append(" ");
+                detail_buffer_.Append(' ');
+                chars.Append(' ');
             }
 
             var value = reader.ReadByte();
@@ -236,7 +239,7 @@ public partial class DASMElement : UserControl
             }
             else
             {
-                chars.Append(".");
+                chars.Append('.');
             }
         }
         detail_buffer_.Append("  ");
@@ -265,7 +268,7 @@ public partial class DASMElement : UserControl
             }
             else if (i % 16 == 0)
             {
-                detail_buffer_.Append(" ");
+                detail_buffer_.Append(' ');
             }
 
             var value = reader.ReadInt32();
@@ -328,7 +331,7 @@ public partial class DASMElement : UserControl
 
 
         // Find the largest address so we can get consistent column length.
-        var last_address = insns[insns.Length - 1].Address;
+        var last_address = insns[^1].Address;
         var ndigits = string.Format("{0:x}", last_address).Length;
         var addrfmt = "0x{0:x" + ndigits + "}: ";
 
@@ -655,7 +658,7 @@ public partial class DASMElement : UserControl
         }, null);
     }
 
-    private string DimsToString(Tag tag, DebugSymbolDimEntry[] dims)
+    private static string DimsToString(Tag tag, DebugSymbolDimEntry[] dims)
     {
         var str = "";
         for (var i = 0; i < dims.Length; i++)

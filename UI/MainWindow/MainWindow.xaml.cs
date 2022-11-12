@@ -262,7 +262,9 @@ public partial class MainWindow
             if (!EditorReferences.Any() || !EditorReferences.Any(x => x.NeedsSave) || Program.OptionsObject.ActionOnClose != ActionOnClose.Prompt)
             {
                 ClosingBuffer = true;
+#pragma warning disable CS0618 // 'MainWindow.CloseProgram(bool)' está obsoleto: 'Obsolete'
                 CloseProgram(true);
+#pragma warning restore CS0618 // 'MainWindow.CloseProgram(bool)' está obsoleto: 'Obsolete'
             }
             else
             {
@@ -274,7 +276,7 @@ public partial class MainWindow
 
                 foreach (var editor in EditorReferences.Where(x => x.NeedsSave))
                 {
-                    sb.AppendLine($"  - {editor.Parent.Title.Substring(1)}");
+                    sb.AppendLine($"  - {editor.Parent.Title[1..]}");
                 }
 
                 var result = await this.ShowMessageAsync("Save all files?", $"Unsaved files:\n{sb}",
@@ -284,13 +286,17 @@ public partial class MainWindow
                 {
                     case MessageDialogResult.Affirmative:
                         ClosingBuffer = true;
+#pragma warning disable CS0618 // 'MainWindow.CloseProgram(bool)' está obsoleto: 'Obsolete'
                         CloseProgram(true);
+#pragma warning restore CS0618 // 'MainWindow.CloseProgram(bool)' está obsoleto: 'Obsolete'
                         Close();
                         break;
 
                     case MessageDialogResult.Negative:
                         ClosingBuffer = true;
+#pragma warning disable CS0618 // 'MainWindow.CloseProgram(bool)' está obsoleto: 'Obsolete'
                         CloseProgram(false);
+#pragma warning restore CS0618 // 'MainWindow.CloseProgram(bool)' está obsoleto: 'Obsolete'
                         Close();
                         break;
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SourcepawnCondenser.SourcemodDefinition;
 
@@ -8,7 +9,7 @@ public class SMFunction : SMBaseDefinition
 
     public string FullName = string.Empty;
     public string ReturnType = string.Empty;
-    public string[] Parameters = new string[0];
+    public string[] Parameters = Array.Empty<string>();
     public SMFunctionKind FunctionKind = SMFunctionKind.Unknown;
     public List<SMVariable> FuncVariables = new();
 }

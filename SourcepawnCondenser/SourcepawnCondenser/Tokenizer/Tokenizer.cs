@@ -102,13 +102,13 @@ public static class Tokenizer
 
                                 if (endIndex == -1)
                                 {
-                                    token.Add(new Token(source.Substring(startIndex), TokenKind.SingleLineComment,
+                                    token.Add(new Token(source[startIndex..], TokenKind.SingleLineComment,
                                         startIndex));
                                     i = sArrayLength;
                                 }
                                 else
                                 {
-                                    token.Add(new Token(source.Substring(startIndex, endIndex - startIndex),
+                                    token.Add(new Token(source[startIndex..endIndex],
                                         TokenKind.SingleLineComment, startIndex));
                                     i = endIndex - 1;
                                 }
@@ -135,7 +135,7 @@ public static class Tokenizer
                                 if (endIndex == -1)
                                 {
                                     i = sArrayLength;
-                                    token.Add(new Token(source.Substring(startIndex), TokenKind.MultiLineComment,
+                                    token.Add(new Token(source[startIndex..], TokenKind.MultiLineComment,
                                         startIndex));
                                 }
                                 else
@@ -236,7 +236,7 @@ public static class Tokenizer
 
                     if (c != '_' || (c == '_' && IsIdentifierChar(nextChar)))
                     {
-                        var identString = source.Substring(startIndex, endIndex - startIndex);
+                        var identString = source[startIndex..endIndex];
                         switch (identString)
                         {
                             case "native":
@@ -264,7 +264,7 @@ public static class Tokenizer
                                 if (enumStructStart >= 0)
                                 {
                                     // Avoid double matches
-                                    var fullString = source.Substring(enumStructStart, endIndex - enumStructStart);
+                                    var fullString = source[enumStructStart..endIndex];
                                     if (fullString == "enum struct")
                                     {
                                         break;
@@ -417,7 +417,7 @@ public static class Tokenizer
                                 break;
                             }
 
-                            var directiveString = source.Substring(startIndex, endIndex - startIndex);
+                            var directiveString = source[startIndex..endIndex];
                             token.Add(new Token(directiveString, TokenKind.PreprocessorDirective, startIndex));
 
                             if (directiveString == "#define" &&

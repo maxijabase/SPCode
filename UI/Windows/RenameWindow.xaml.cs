@@ -110,7 +110,7 @@ public partial class RenameWindow
 
     private void CheckExtension()
     {
-        if (!TxtName.Text.Contains(".") || !Program.MainWindow.FileIcons.ContainsKey(TxtName.Text.Substring(TxtName.Text.LastIndexOf('.'))))
+        if (!TxtName.Text.Contains(".") || !Program.MainWindow.FileIcons.ContainsKey(TxtName.Text[TxtName.Text.LastIndexOf('.')..]))
         {
             lblError.Content = Translate("FileNotSupported");
             lblError.ToolTip = Translate("FileWillBeExcluded");

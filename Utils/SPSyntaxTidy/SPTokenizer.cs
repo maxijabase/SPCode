@@ -101,7 +101,7 @@ public static class SPTokenizer
 
                 if (!foundOccurence)
                 {
-                    token.Add(new SPToken() { Kind = SPTokenKind.Quote, Value = source.Substring(startIndex) });
+                    token.Add(new SPToken() { Kind = SPTokenKind.Quote, Value = source[startIndex..] });
                     /* We are doing this, because the reformatter is often called while formating a single line.
                      * When open quotes are there, we don't want them to be reformatted. So we tread them like
                      * closed ones.

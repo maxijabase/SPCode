@@ -67,7 +67,7 @@ public partial class OptionsWindow
             foreach (var hk in Program.HotkeysList)
             {
                 var hkStr = hk.Hotkey.ToString();
-                if (hkStr == HotkeyControl.DefaultHotkeys[hkControl.Name.Substring(2)] && hkStr != hkControl.Hotkey.ToString())
+                if (hkStr == HotkeyControl.DefaultHotkeys[hkControl.Name[2..]] && hkStr != hkControl.Hotkey.ToString())
                 {
                     ShowLabel(Translate("DefaultTaken"));
                     return;
@@ -152,12 +152,12 @@ public partial class OptionsWindow
         }
 
         // Get the control name by separating it from its x:Name suffix
-        var ctrlName = _ctrl.Name.Substring(2);
+        var ctrlName = _ctrl.Name[2..];
 
         // We skip checks if we're setting a default hotkey
         if (toDefault)
         {
-            _ctrl.Hotkey = new Hotkey(HotkeyControl.DefaultHotkeys[_ctrl.Name.Substring(2)]);
+            _ctrl.Hotkey = new Hotkey(HotkeyControl.DefaultHotkeys[_ctrl.Name[2..]]);
             goto SaveDirectly;
         }
 

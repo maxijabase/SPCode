@@ -776,7 +776,7 @@ public partial class EditorElement : UserControl
             {
                 ClosingPromptOpened = true;
                 var result = await Program.MainWindow.ShowMessageAsync(
-                    $"Do you want to save changes to '{Parent.Title.Substring(1)}'?",
+                    $"Do you want to save changes to '{Parent.Title[1..]}'?",
                     "Your changes will be lost if you don't save them",
                     MessageDialogStyle.AffirmativeAndNegativeAndSingleAuxiliary,
                     Program.MainWindow.ClosingDialogOptions);

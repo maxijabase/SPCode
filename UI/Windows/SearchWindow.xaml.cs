@@ -251,13 +251,13 @@ public partial class SearchWindow
                 startFileCaretOffset = editors[index].editor.CaretOffset;
                 addToOffset = startFileCaretOffset;
                 if (startFileCaretOffset < 0) { startFileCaretOffset = 0; }
-                searchText = editors[index].editor.Text.Substring(startFileCaretOffset);
+                searchText = editors[index].editor.Text[startFileCaretOffset..];
             }
             else if (i == (editors.Count + editorIndex))
             {
                 searchText = startFileCaretOffset == 0 ?
                     string.Empty :
-                    editors[index].editor.Text.Substring(0, startFileCaretOffset);
+                    editors[index].editor.Text[..startFileCaretOffset];
             }
             else
             {
@@ -327,11 +327,11 @@ public partial class SearchWindow
                 { 
                     startFileCaretOffset = 0; 
                 }
-                searchText = currEditor.Text.Substring(startFileCaretOffset);
+                searchText = currEditor.Text[startFileCaretOffset..];
             }
             else if (i == editors.Count + editorIndex)
             {
-                searchText = startFileCaretOffset == 0 ? string.Empty : currEditor.Text.Substring(0, startFileCaretOffset);
+                searchText = startFileCaretOffset == 0 ? string.Empty : currEditor.Text[..startFileCaretOffset];
             }
             else
             {
@@ -449,7 +449,7 @@ public partial class SearchWindow
                     findString = findString.Replace("\\t", "\t").Replace("\\r", "\r").Replace("\\n", "\n");
                     var rx = new Regex(@"\\[uUxX]([0-9A-F]{4})");
                     findString = rx.Replace(findString,
-                        match => ((char)int.Parse(match.Value.Substring(2), NumberStyles.HexNumber)).ToString());
+                        match => ((char)int.Parse(match.Value[2..], NumberStyles.HexNumber)).ToString());
                     regex = new Regex(Regex.Escape(findString), regexOptions);
                 }
                 else if (RSearch_RButton.IsChecked.Value)

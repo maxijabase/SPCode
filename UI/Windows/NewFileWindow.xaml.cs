@@ -357,10 +357,7 @@ public partial class NewFileWindow
     {
         try
         {
-            if (LBIList != null)
-            {
-                LBIList.ForEach(x => TemplateListBox.Items.Add(x));
-            }
+            LBIList?.ForEach(x => TemplateListBox.Items.Add(x));
         }
         catch (Exception ex)
         {
@@ -504,7 +501,7 @@ public partial class NewFileWindow
                 }
             };
             lbi.MouseDoubleClick += TemplateListItem_MouseDoubleClick;
-            TemplateListBox.Items[TemplateListBox.Items.Count - 1] = lbi;
+            TemplateListBox.Items[^1] = lbi;
         }
         catch (Exception ex)
         {

@@ -722,7 +722,7 @@ public partial class OptionsWindow
         {
             if (item is TextBlock tbx && !string.IsNullOrEmpty(tbx.Name))
             {
-                tbx.Text = Translate(tbx.Name.Substring(3));
+                tbx.Text = Translate(tbx.Name[3..]);
             }
         }
     }

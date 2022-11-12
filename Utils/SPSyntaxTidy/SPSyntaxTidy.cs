@@ -52,12 +52,12 @@ public static class SPSyntaxTidy
                 var lastToken = GetTokenSave(i - 1, token, length);
                 if (lastToken.Kind != SPTokenKind.Newline && lastToken.Kind != SPTokenKind.Comma && lastToken.Kind != SPTokenKind.Operator)
                 {
-                    outString.Append(" ");
+                    outString.Append(' ');
                 }
-                outString.Append("{");
+                outString.Append('{');
                 if (GetTokenSave(i + 1, token, length).Kind != SPTokenKind.Newline)
                 {
-                    outString.Append(" ");
+                    outString.Append(' ');
                 }
                 ++indentationLevel;
                 continue;
@@ -66,14 +66,14 @@ public static class SPSyntaxTidy
             {
                 if (GetTokenSave(i - 1, token, length).Kind != SPTokenKind.Newline)
                 {
-                    outString.Append(" ");
+                    outString.Append(' ');
                 }
-                outString.Append("}");
+                outString.Append('}');
                 var nextToken = GetTokenSave(i + 1, token, length);
                 if (nextToken.Kind != SPTokenKind.Newline && nextToken.Kind != SPTokenKind.Comma && nextToken.Kind != SPTokenKind.Semicolon
                     && nextToken.Kind != SPTokenKind.SingleLineComment && nextToken.Kind != SPTokenKind.BracketClose)
                 {
-                    outString.Append(" ");
+                    outString.Append(' ');
                 }
                 --indentationLevel;
                 if (indentationLevel < 0) { indentationLevel = 0; }
@@ -88,7 +88,7 @@ public static class SPSyntaxTidy
             {
                 if (GetTokenSave(i - 1, token, length).Kind != SPTokenKind.Newline)
                 {
-                    outString.Append(" ");
+                    outString.Append(' ');
                 }
                 outString.Append(token[i].Value);
                 continue;
@@ -126,7 +126,7 @@ public static class SPSyntaxTidy
                     }
                     else
                     {
-                        outString.Append("-");
+                        outString.Append('-');
                     }
                     continue;
                 }
@@ -148,11 +148,11 @@ public static class SPSyntaxTidy
                 outString.Append(token[i].Value);
                 if (GetTokenSave(i + 1, token, length).Kind == SPTokenKind.Name)
                 {
-                    outString.Append(" ");
+                    outString.Append(' ');
                 }
                 else if (IsPreWhiteSpaceName(token[i].Value))
                 {
-                    outString.Append(" ");
+                    outString.Append(' ');
                 }
                 continue;
             }
@@ -164,11 +164,11 @@ public static class SPSyntaxTidy
             if (token[i].Kind == SPTokenKind.Semicolon)
             {
                 LookForSingleIndentationSegment = false;
-                outString.Append(";");
+                outString.Append(';');
                 var nextToken = GetTokenSave(i + 1, token, length);
                 if (nextToken.Kind != SPTokenKind.Newline && nextToken.Kind != SPTokenKind.BracketClose && nextToken.Kind != SPTokenKind.SingleLineComment)
                 {
-                    outString.Append(" ");
+                    outString.Append(' ');
                 }
                 continue;
             }

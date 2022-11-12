@@ -75,11 +75,9 @@ public static class Program
 
                     var buffer = new byte[4096];
 
-                    using (var zipStream = zf.GetInputStream(zipEntry))
-                    using (Stream fsOutput = File.Create(fullZipToPath))
-                    {
-                        StreamUtils.Copy(zipStream, fsOutput, buffer);
-                    }
+                    using var zipStream = zf.GetInputStream(zipEntry);
+                    using Stream fsOutput = File.Create(fullZipToPath);
+                    StreamUtils.Copy(zipStream, fsOutput, buffer);
                 }
             }
             Success = true;

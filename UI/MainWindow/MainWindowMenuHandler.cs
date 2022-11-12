@@ -188,7 +188,9 @@ public partial class MainWindow
 
     private void Menu_FTPUpload(object sender, RoutedEventArgs e)
     {
+#pragma warning disable CS0618 // 'MainWindow.FTPUpload_Plugins()' está obsoleto: 'Obsolete'
         FTPUpload_Plugins();
+#pragma warning restore CS0618 // 'MainWindow.FTPUpload_Plugins()' está obsoleto: 'Obsolete'
     }
 
     private void Menu_StartServer(object sender, RoutedEventArgs e)
@@ -332,10 +334,12 @@ public partial class MainWindow
 
     private void MenuButton_Action(object sender, RoutedEventArgs e)
     {
+#pragma warning disable CS0618 // 'MainWindow.FTPUpload_Plugins()' está obsoleto: 'Obsolete'
         switch (CActionButton.SelectedIndex)
         {
             case 0: Copy_Plugins(); break;
             case 1: FTPUpload_Plugins(); break;
+#pragma warning restore CS0618 // 'MainWindow.FTPUpload_Plugins()' está obsoleto: 'Obsolete'
             case 2: Server_Start(); break;
         }
     }

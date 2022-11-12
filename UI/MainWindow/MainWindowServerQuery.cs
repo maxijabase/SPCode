@@ -169,7 +169,7 @@ public partial class MainWindow
     {
         if (fileName.EndsWith(".smx"))
         {
-            return fileName.Substring(0, fileName.Length - 4);
+            return fileName[..^4];
         }
 
         return fileName;

@@ -110,7 +110,7 @@ public partial class MainWindow
             }
         }
 
-        if (int.TryParse(lineStr.Substring(0, end + 1), out var line))
+        if (int.TryParse(lineStr[..(end + 1)], out var line))
         {
             return line;
         }

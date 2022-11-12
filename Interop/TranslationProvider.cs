@@ -148,7 +148,7 @@ public class TranslationProvider
                     .Cast<XmlNode>()
                     .Single(x => x.Name == "language")
                     .InnerText;
-                var langID = fInfo.Name.Substring(0, fInfo.Name.IndexOf('.'));
+                var langID = fInfo.Name[..fInfo.Name.IndexOf('.')];
 
                 // Add file to the available languages lists
                 AvailableLanguages.Add(langName);
