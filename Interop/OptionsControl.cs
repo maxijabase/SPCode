@@ -92,6 +92,12 @@ public class OptionsControl
 
     public int Version = 11;
 
+    public void EnsureCompatibility()
+    {
+        // Prevent previous versions from loading old "Base" prefix nomenclature
+        Program_Theme = Program_Theme.Replace("Base", string.Empty);
+    }
+
     public void FillNullToDefaults()
     {
         if (Program_CryptoKey == null)
@@ -247,6 +253,7 @@ public class OptionsControl
                 }
 
                 optionsObject.FillNullToDefaults();
+                optionsObject.EnsureCompatibility();
                 ProgramIsNew = false;
                 return optionsObject;
             }

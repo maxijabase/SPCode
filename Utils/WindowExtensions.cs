@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using ControlzEx.Theming;
 
 namespace SPCode.Utils;
@@ -12,10 +12,7 @@ public static class WindowExtensions
     public static void ApplyTheme(this Window window)
     {
         var themeName = $"{Program.OptionsObject.Program_Theme}.{Program.OptionsObject.Program_AccentColor}";
-        
-        // Prevent previous versions from loading old "Base" prefix nomenclature
-        themeName = themeName.Replace("Base", string.Empty);
-        
+
         ThemeManager.Current.ChangeTheme(window, themeName);
     }
 }
