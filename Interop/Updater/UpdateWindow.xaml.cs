@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
+using ControlzEx.Theming;
 using MahApps.Metro.Controls.Dialogs;
 using MdXaml;
 using SPCode.Utils;
@@ -90,7 +91,7 @@ public partial class UpdateWindow
 
         if (_updateInfo.AllReleases != null && _updateInfo.AllReleases.Count > 0)
         {
-            var color = ThemeManager.Current.DetectTheme().PrimaryAccentColor.ToString();
+            var color = ThemeManager.Current.DetectTheme()!.PrimaryAccentColor.ToString();
             foreach (var release in _updateInfo.AllReleases)
             {
                 releasesBody.Append($"**%{{color:{color}}}Version {release.TagName}%** ");
