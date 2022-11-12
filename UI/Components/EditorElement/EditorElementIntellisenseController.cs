@@ -464,14 +464,14 @@ public partial class EditorElement
             if (text.Length == 0 || editor.SelectionLength > 0)
                 return false;
 
-            if (!IsValidFunctionChar(text[lineOffset - 1]) &&
+            if (!IsIdentifierChar(text[lineOffset - 1]) &&
                 text[lineOffset - 1] != '.' && text[lineOffset - 1] != ' ' && text[lineOffset - 1] != '\t')
                 return false;
 
             var isNextCharValid = true;
             if (text.Length > lineOffset)
             {
-                if (IsValidFunctionChar(text[lineOffset]) || text[lineOffset] == '(')
+                if (IsIdentifierChar(text[lineOffset]) || text[lineOffset] == '(')
                 {
                     isNextCharValid = false;
                 }
@@ -489,7 +489,7 @@ public partial class EditorElement
             // Try to find the "." index from the caret position.
             for (var i = dotOffset; i >= 0; --i)
             {
-                if (!IsValidFunctionChar(text[i]))
+                if (!IsIdentifierChar(text[i]))
                 {
                     if (text[i] == '.')
                     {
@@ -522,27 +522,49 @@ public partial class EditorElement
                 {
                     return false;
                 }
+                
+                var bracketsCount = 0;
+                var identStartIndex = classOffset + 1;
+                var endIndex = 0;
 
-                int len = 0;
-                for (var i = classOffset; i >= 0; --i)
+                var found = false;
+                for (var i = classOffset; i >= 0; i--)
                 {
-                    if (!IsValidFunctionChar(text[i]))
+                    var sym = text[i];
+
+                    switch (sym)
                     {
-                        break;
+                        case ']':
+                            bracketsCount++;
+                            break;
+                        case '[' when bracketsCount > 0:
+                            bracketsCount--;
+
+                            if (bracketsCount == 0 && identStartIndex == classOffset + 1) identStartIndex = i;
+                            break;
+                        default:
+                            if (bracketsCount == 0)
+                            {
+                                if (!IsIdentifierChar(sym)) found = true;
+                            }
+                            break;
                     }
 
-                    // Save the index where the method call begins, eg. ArrayList.Push().
-                    //                                                  ^HERE
-                    classOffset = i;
-                    len++;
+                    if (found)
+                        break;
+
+                    endIndex = i;
                 }
 
-                var classString = text.Substring(classOffset, len);
+                if (!found)
+                    return false;
+
+                var classString = text[endIndex..identStartIndex];
+                if (classString.Length == 0) return false;
+                
                 var mm = FindClass(classString);
                 if (mm == null)
-                {
                     return false;
-                }
 
                 var isNodes = mm.ProduceNodes(_smDef);
 
@@ -714,7 +736,7 @@ public partial class EditorElement
                     for (var i = startOffset; i >= 0; --i)
                     {
                         var charAt = editor.Document.GetCharAt(i);
-                        if (!IsValidFunctionChar(charAt))
+                        if (!IsIdentifierChar(charAt))
                         {
                             if (i == startOffset && (charAt is '.' or ' ' or '\t' or '#'))
                             {
@@ -1080,7 +1102,7 @@ public partial class EditorElement
     }
 
     // Check if char is between a-z A-Z 0-9 or _.
-    private static bool IsValidFunctionChar(char c) =>
+    private static bool IsIdentifierChar(char c) =>
         (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_';
 }
 
