@@ -12,6 +12,7 @@ using MahApps.Metro.Controls.Dialogs;
 using MdXaml;
 using SPCode.Utils;
 using static SPCode.Interop.TranslationProvider;
+using static SPCode.Utils.UrlUtils;
 using FontFamily = System.Windows.Media.FontFamily;
 
 namespace SPCode.Interop.Updater;
@@ -51,7 +52,7 @@ public partial class UpdateWindow
 
     private void ActionGithubButton_Click(object sender, RoutedEventArgs e)
     {
-        Process.Start(new ProcessStartInfo(Constants.GitHubLatestRelease));
+        OpenUrl(Constants.GitHubLatestRelease);
     }
 
     private void MetroWindow_KeyDown(object sender, KeyEventArgs e)

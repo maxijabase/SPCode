@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -13,6 +13,7 @@ using SPCode.Interop.Updater;
 using SPCode.UI.Windows;
 using SPCode.Utils;
 using static SPCode.Interop.TranslationProvider;
+using static SPCode.Utils.UrlUtils;
 
 namespace SPCode.UI;
 
@@ -206,7 +207,7 @@ public partial class MainWindow
     private void Menu_OpenWebsiteFromTag(object sender, RoutedEventArgs e)
     {
         var url = (string)((MenuItem)sender).Tag;
-        Process.Start(new ProcessStartInfo(url));
+        OpenUrl(url);
     }
 
     private void Menu_About(object sender, RoutedEventArgs e)
@@ -219,10 +220,7 @@ public partial class MainWindow
     
     private void Menu_Help(object sender, RoutedEventArgs e)
     {
-        Process.Start(new ProcessStartInfo(Constants.GitHubWiki)
-        {
-            UseShellExecute = true
-        });
+        OpenUrl(Constants.GitHubWiki);
     }
 
     private void Menu_OpenSPDef(object sender, RoutedEventArgs e)
@@ -258,7 +256,7 @@ public partial class MainWindow
 
     private void ReportBug_Click(object sender, RoutedEventArgs e)
     {
-        Process.Start(new ProcessStartInfo(Constants.GitHubNewIssueLink));
+        OpenUrl(Constants.GitHubNewIssueLink);
     }
 
     private async void UpdateCheck_Click(object sender, RoutedEventArgs e)

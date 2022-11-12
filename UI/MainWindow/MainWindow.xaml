@@ -403,7 +403,7 @@
 
             <SolidColorBrush x:Key="AvalonDock_ThemeMetro_BaseColor7" 
                              Color="{DynamicResource MahApps.Colors.Gray1}"/>
-
+            
             <SolidColorBrush x:Key="AvalonDock_ThemeMetro_BaseColor31"
                              Color="{DynamicResource MahApps.Colors.ThemeBackground}"/>
 

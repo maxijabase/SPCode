@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Navigation;
 using SPCode.Utils;
 using static SPCode.Interop.TranslationProvider;
+using static SPCode.Utils.UrlUtils;
 
 namespace SPCode.UI.Windows;
 
@@ -45,7 +46,7 @@ public partial class AboutWindow
 
     private void HyperlinkRequestNavigate(object sender, RequestNavigateEventArgs e)
     {
-        Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+        OpenUrl(e.Uri.AbsoluteUri);
         e.Handled = true;
     }
 
