@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using ControlzEx.Theming;
 using MahApps.Metro.Controls.Dialogs;
 using MdXaml;
 using SPCode.Utils;
@@ -91,9 +92,10 @@ public partial class UpdateWindow
 
         if (_updateInfo.AllReleases != null && _updateInfo.AllReleases.Count > 0)
         {
+            var color = ThemeManager.Current.DetectTheme().PrimaryAccentColor.ToString();
             foreach (var release in _updateInfo.AllReleases)
             {
-                releasesBody.Append($"**%{{color:{GetAccentHex()}}}Version {release.TagName}%** ");
+                releasesBody.Append($"**%{{color:{color}}}Version {release.TagName}%** ");
                 releasesBody.AppendLine($"*%{{color:gray}}({MonthToTitlecase(release.CreatedAt)})% *\r\n");
                 releasesBody.AppendLine(release.Body + "\r\n");
             }
@@ -196,18 +198,6 @@ public partial class UpdateWindow
         }
 
         Close();
-    }
-
-    /// <summary>
-    /// Transforms the current accent color into the hex color format.
-    /// </summary>
-    /// <returns></returns>
-    private string GetAccentHex()
-    {
-        return "#FFAFFF";
-       //var theme = ThemeManager.Current.DetectTheme(this)!;
-       //theme
-       //return.Resources["AccentColor"].ToString();
     }
 
     /// <summary>
