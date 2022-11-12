@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -7,12 +8,11 @@ using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using ControlzEx.Theming;
 using MahApps.Metro.Controls.Dialogs;
 using MdXaml;
 using SPCode.Utils;
 using static SPCode.Interop.TranslationProvider;
+using FontFamily = System.Windows.Media.FontFamily;
 
 namespace SPCode.Interop.Updater;
 
@@ -35,7 +35,6 @@ public partial class UpdateWindow
 
         _updateInfo = info;
         PrepareUpdateWindow(OnlyChangelog);
-
     }
     #endregion
 
@@ -87,7 +86,6 @@ public partial class UpdateWindow
             ActionNoButton.Content = Translate("No");
             ActionGithubButton.Content = Translate("ViewGithub");
         }
-
         var releasesBody = new StringBuilder();
 
         if (_updateInfo.AllReleases != null && _updateInfo.AllReleases.Count > 0)
@@ -196,7 +194,7 @@ public partial class UpdateWindow
                 Environment.NewLine + "$$$" + e.StackTrace,
                 "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
-
+        
         Close();
     }
 

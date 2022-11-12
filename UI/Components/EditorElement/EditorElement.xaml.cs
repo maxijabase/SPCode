@@ -71,22 +71,13 @@ public partial class EditorElement : UserControl
         get => _NeedsSave;
         set
         {
-            if (!(value ^ _NeedsSave)) //when not changed
-            {
+            if (_NeedsSave == value) //when not changed
                 return;
-            }
 
             _NeedsSave = value;
             if (Parent != null)
             {
-                if (_NeedsSave)
-                {
-                    Parent.Title = "*" + Parent.Title;
-                }
-                else
-                {
-                    Parent.Title = Parent.Title.Trim('*');
-                }
+                Parent.Title = Parent.Title.Trim('*');
             }
         }
     }

@@ -379,9 +379,41 @@
                              Foreground="{DynamicResource MahApps.Brushes.ThemeForeground}"
                              ActiveContentChanged="DockingManager_ActiveContentChanged"
                              DocumentClosed="DockingManager_DocumentClosed">
+          <dock:DockingManager.Resources>
+            <SolidColorBrush x:Key="AvalonDock_ThemeMetro_BaseColor1" 
+                             Color="{DynamicResource MahApps.Colors.ThemeForeground}"/>
+
+            <SolidColorBrush x:Key="AvalonDock_ThemeMetro_BaseColor2" 
+                             Color="{DynamicResource MahApps.Colors.ThemeBackground}"/>
+
+            <SolidColorBrush x:Key="AvalonDock_ThemeMetro_BaseColor3" 
+                             Color="{DynamicResource MahApps.Colors.Accent}"/>
+            <!--ItemLine-->
+
+            <SolidColorBrush x:Key="AvalonDock_ThemeMetro_BaseColor4" 
+                             Color="{DynamicResource MahApps.Colors.Accent2}"/>
+            <!--MouseOver ItemLine-->
+
+            <SolidColorBrush x:Key="AvalonDock_ThemeMetro_BaseColor5" 
+                             Color="{DynamicResource MahApps.Colors.ThemeForeground}"/>
+            <!--Item Foreground-->
+
+            <SolidColorBrush x:Key="AvalonDock_ThemeMetro_BaseColor6" 
+                             Color="{DynamicResource MahApps.Colors.ThemeBackground}"/>
+
+            <SolidColorBrush x:Key="AvalonDock_ThemeMetro_BaseColor7" 
+                             Color="{DynamicResource MahApps.Colors.Gray1}"/>
+
+            <SolidColorBrush x:Key="AvalonDock_ThemeMetro_BaseColor31"
+                             Color="{DynamicResource MahApps.Colors.ThemeBackground}"/>
+
+            <SolidColorBrush x:Key="AvalonDock_ThemeMetro_BaseColor33"
+                             Color="{DynamicResource MahApps.Colors.ThemeBackground}"/>
+          </dock:DockingManager.Resources>
           <dock:DockingManager.Theme>
             <dock:MetroTheme />
           </dock:DockingManager.Theme>
+          
           <dock:LayoutRoot>
             <dock:LayoutPanel>
               <dock:LayoutDocumentPaneGroup x:Name="DockingPaneGroup"
