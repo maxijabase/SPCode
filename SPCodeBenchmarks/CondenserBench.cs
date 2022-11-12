@@ -3,8 +3,6 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Toolchains.InProcess.NoEmit;
 using SourcepawnCondenser;
-using SourcepawnCondenser.Tokenizer;
-using static SPCode.Utils.SPSyntaxTidy.SPSyntaxTidy;
 
 namespace SPCodeBenchmarks;
 

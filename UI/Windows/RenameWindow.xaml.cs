@@ -3,7 +3,6 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using MahApps.Metro;
 using SPCode.Utils;
 using static SPCode.Interop.TranslationProvider;
 

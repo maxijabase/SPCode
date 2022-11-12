@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ICSharpCode.AvalonEdit;
-using MahApps.Metro;
 using SPCode.Utils;
 using static SPCode.Interop.TranslationProvider;
 

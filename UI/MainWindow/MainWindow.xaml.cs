@@ -13,7 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using DiscordRPC;
-using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
 using SPCode.Interop;
 using SPCode.Interop.Updater;

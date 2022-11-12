@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using ControlzEx.Theming;
-using MahApps.Metro;
 
 namespace SPCode.Utils;
 

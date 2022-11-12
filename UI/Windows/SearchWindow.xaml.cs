@@ -7,7 +7,6 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using MahApps.Metro;
 using MahApps.Metro.Controls;
 using SPCode.UI.Components;
 using SPCode.Utils;

@@ -8,8 +8,6 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using ControlzEx.Theming;
-using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
 using MdXaml;
 using SPCode.Utils;

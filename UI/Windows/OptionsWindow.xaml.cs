@@ -8,7 +8,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using DiscordRPC;
-using MahApps.Metro;
 using MahApps.Metro.Controls.Dialogs;
 using SPCode.UI.Components;
 using SPCode.Utils;
