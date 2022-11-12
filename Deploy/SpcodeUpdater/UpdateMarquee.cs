@@ -1,12 +1,11 @@
 ﻿using System.Windows.Forms;
 
-namespace SPCodeUpdater
+namespace SPCodeUpdater;
+
+public partial class UpdateMarquee : Form
 {
-    public partial class UpdateMarquee : Form
+    public UpdateMarquee()
     {
-        public UpdateMarquee()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

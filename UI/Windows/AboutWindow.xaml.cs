@@ -7,65 +7,64 @@ using System.Windows.Navigation;
 using SPCode.Utils;
 using static SPCode.Interop.TranslationProvider;
 
-namespace SPCode.UI.Windows
+namespace SPCode.UI.Windows;
+
+public partial class AboutWindow
 {
-    public partial class AboutWindow
+    public AboutWindow()
     {
-        public AboutWindow()
+        InitializeComponent();
+        Language_Translate();
+        EvaluateRTL();
+        this.ApplyTheme();
+
+        Brush gridBrush = Program.OptionsObject.Program_Theme == "Dark" ?
+          new SolidColorBrush(Color.FromArgb(0xC0, 0x10, 0x10, 0x10)) :
+          new SolidColorBrush(Color.FromArgb(0xC0, 0xE0, 0xE0, 0xE0));
+
+        gridBrush.Freeze();
+
+        foreach (var c in ContentStackPanel.Children)
         {
-            InitializeComponent();
-            Language_Translate();
-            EvaluateRTL();
-            this.ApplyTheme();
-
-            Brush gridBrush = Program.OptionsObject.Program_Theme == "Dark" ?
-              new SolidColorBrush(Color.FromArgb(0xC0, 0x10, 0x10, 0x10)) :
-              new SolidColorBrush(Color.FromArgb(0xC0, 0xE0, 0xE0, 0xE0));
-
-            gridBrush.Freeze();
-
-            foreach (var c in ContentStackPanel.Children)
+            if (c is Grid g)
             {
-                if (c is Grid g)
-                {
-                    g.Background = gridBrush;
-                }
-            }
-            TitleBox.Text = $"SPCode {NamesHelper.VersionString} - {Translate("SPCodeCap")}";
-            if (File.Exists(Constants.LicenseFile))
-            {
-                FlyoutTextBox.Text = File.ReadAllText(Constants.LicenseFile);
+                g.Background = gridBrush;
             }
         }
-
-        private void OpenLicenseFlyout(object sender, RoutedEventArgs e)
+        TitleBox.Text = $"SPCode {NamesHelper.VersionString} - {Translate("SPCodeCap")}";
+        if (File.Exists(Constants.LicenseFile))
         {
-            LicenseFlyout.IsOpen = true;
+            FlyoutTextBox.Text = File.ReadAllText(Constants.LicenseFile);
         }
+    }
 
-        private void HyperlinkRequestNavigate(object sender, RequestNavigateEventArgs e)
+    private void OpenLicenseFlyout(object sender, RoutedEventArgs e)
+    {
+        LicenseFlyout.IsOpen = true;
+    }
+
+    private void HyperlinkRequestNavigate(object sender, RequestNavigateEventArgs e)
+    {
+        Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+        e.Handled = true;
+    }
+
+    private void Language_Translate()
+    {
+        Title = Translate("About");
+        OpenLicenseButton.Content = Translate("License");
+        PeopleInvolvedBlock.Text = Translate("PeopleInv");
+    }
+
+    private void EvaluateRTL()
+    {
+        if (Program.IsRTL)
         {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
-            e.Handled = true;
+            FlowDirection = FlowDirection.RightToLeft;
         }
-
-        private void Language_Translate()
+        else
         {
-            Title = Translate("About");
-            OpenLicenseButton.Content = Translate("License");
-            PeopleInvolvedBlock.Text = Translate("PeopleInv");
-        }
-
-        private void EvaluateRTL()
-        {
-            if (Program.IsRTL)
-            {
-                FlowDirection = FlowDirection.RightToLeft;
-            }
-            else
-            {
-                FlowDirection = FlowDirection.LeftToRight;
-            }
+            FlowDirection = FlowDirection.LeftToRight;
         }
     }
 }
