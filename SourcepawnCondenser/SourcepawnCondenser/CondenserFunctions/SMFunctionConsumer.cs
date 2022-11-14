@@ -91,8 +91,8 @@ public partial class Condenser
             {
                 var strBuilder = new StringBuilder(_tokens[commentTokenIndex].Value);
                 while ((commentTokenIndex =
-                    BacktraceTestForToken(commentTokenIndex - 1, TokenKind.SingleLineComment, true,
-                        false)) != -1)
+                           BacktraceTestForToken(commentTokenIndex - 1, TokenKind.SingleLineComment, true,
+                               false)) != -1)
                 {
                     strBuilder.Insert(0, Environment.NewLine);
                     strBuilder.Insert(0, _tokens[commentTokenIndex].Value);
@@ -240,6 +240,7 @@ public partial class Condenser
                 });
                 return outTokenIndex + 1;
             }
+
             var nextOpenBraceTokenIndex = FortraceTestForToken(outTokenIndex + 1, TokenKind.BraceOpen, true, false);
             if (nextOpenBraceTokenIndex != -1)
             {
@@ -256,12 +257,13 @@ public partial class Condenser
                         if (braceState == 0)
                         {
                             int count = i - nextOpenBraceTokenIndex;
-                            
-                            Span<Token> tokens = CollectionsMarshal.AsSpan(_tokens).Slice(nextOpenBraceTokenIndex, count);
+
+                            Span<Token> tokens = CollectionsMarshal.AsSpan(_tokens)
+                                .Slice(nextOpenBraceTokenIndex, count);
                             localVars = LocalVars.ConsumeSMVariableLocal(tokens, _fileName);
                             _def.Functions.Add(new SMFunction
                             {
-                                EndPos = _tokens[nextOpenBraceTokenIndex + (i - nextOpenBraceTokenIndex) + 1].Index,
+                                EndPos = _tokens[i + 1].Index,
                                 FunctionKind = kind,
                                 Index = _tokens[startPosition].Index,
                                 File = _fileName,
@@ -312,6 +314,7 @@ internal static class LocalVars
         {
             return variables;
         }
+
         try
         {
             while (position < length)
@@ -321,6 +324,7 @@ internal static class LocalVars
                     position++;
                     continue;
                 }
+
                 var startIndex = t[position].Index;
 
                 var varType = t[position].Value;
@@ -393,8 +397,7 @@ internal static class LocalVars
                         }
 
                         if (t[position + i].Value == "[" &&
-                            (t[position + i + 1].Kind == TokenKind.Number ||
-                             t[position + i + 1].Kind == TokenKind.Identifier) &&
+                            t[position + i + 1].Kind is TokenKind.Number or TokenKind.Identifier &&
                             t[position + i + 2].Value == "]")
                         {
                             size.Add(t[position + i + 1].Value);
@@ -436,10 +439,7 @@ internal static class LocalVars
                         continueNext = true;
                         break;
                     // Assign var match: "int x = 5"
-                    case TokenKind.Assignment when t[position + 3].Kind == TokenKind.Number ||
-                                                    t[position + 3].Kind == TokenKind.Quote ||
-                                                    t[position + 3].Kind == TokenKind.Identifier ||
-                                                    t[position + 3].Kind == TokenKind.New:
+                    case TokenKind.Assignment when t[position + 3].Kind is TokenKind.Number or TokenKind.Quote or TokenKind.Identifier or TokenKind.New:
                         variables.Add(new SMVariable
                         {
                             Index = startIndex,
