@@ -28,6 +28,7 @@ namespace SPCode.UI;
 public partial class MainWindow
 {
     #region Variables
+
     private readonly SolidColorBrush BlendOverEffectColorBrush;
     private readonly Storyboard BlendOverEffect;
     private readonly Storyboard DimmMainWindowEffect;
@@ -46,15 +47,12 @@ public partial class MainWindow
 
     private ObservableCollection<string> ActionButtonDict = new()
     {
-        Translate("Copy"),
-        Translate("UploadFTP"),
-        Translate("StartServer")
+        Translate("Copy"), Translate("UploadFTP"), Translate("StartServer")
     };
 
     private ObservableCollection<string> CompileButtonDict = new()
     {
-        Translate("CompileAll"),
-        Translate("CompileCurrent")
+        Translate("CompileAll"), Translate("CompileCurrent")
     };
 
     public MetroDialogSettings ClosingDialogOptions = new()
@@ -66,9 +64,11 @@ public partial class MainWindow
         AnimateShow = false,
         DefaultButtonFocus = MessageDialogResult.Affirmative
     };
+
     #endregion
 
     #region Constructors
+
     public MainWindow()
     {
         InitializeComponent();
@@ -83,10 +83,7 @@ public partial class MainWindow
         Title = NamesHelper.ProgramPublicName;
 
         // Timer to select the newly opened editor 200ms after it has been opened
-        SelectDocumentTimer = new DispatcherTimer()
-        {
-            Interval = TimeSpan.FromMilliseconds(200),
-        };
+        SelectDocumentTimer = new DispatcherTimer() { Interval = TimeSpan.FromMilliseconds(200), };
 
         SelectDocumentTimer.Tick += (s, e) =>
         {
@@ -95,9 +92,12 @@ public partial class MainWindow
         };
 
         // Restore sizes of panels and separators
-        ObjectBrowserColumn.Width = new GridLength(Program.OptionsObject.Program_ObjectbrowserWidth, GridUnitType.Pixel);
-        var heightDescriptor = DependencyPropertyDescriptor.FromProperty(ColumnDefinition.WidthProperty, typeof(ItemsControl));
-        heightDescriptor.AddValueChanged(EditorObjectBrowserGrid.ColumnDefinitions[1], EditorObjectBrowserGridRow_WidthChanged);
+        ObjectBrowserColumn.Width =
+            new GridLength(Program.OptionsObject.Program_ObjectbrowserWidth, GridUnitType.Pixel);
+        var heightDescriptor =
+            DependencyPropertyDescriptor.FromProperty(ColumnDefinition.WidthProperty, typeof(ItemsControl));
+        heightDescriptor.AddValueChanged(EditorObjectBrowserGrid.ColumnDefinitions[1],
+            EditorObjectBrowserGridRow_WidthChanged);
 
         // Fill the configs menu and some toolbar combobox items
         FillConfigMenu();
@@ -156,10 +156,12 @@ public partial class MainWindow
             {
                 TryLoadSourceFile(args[i], out _, false, true, i == 0);
             }
+
             if (args[i].ToLowerInvariant() == "--updateok")
             {
                 this.ShowMessageAsync("Update completed", "SPCode has been updated successfully.");
             }
+
             if (args[i].ToLowerInvariant() == "--updatefail")
             {
                 this.ShowMessageAsync("Update failed", "SPCode could not be updated properly.");
@@ -211,9 +213,11 @@ public partial class MainWindow
 
         FullyInitialized = true;
     }
+
     #endregion
 
     #region Events
+
     private void DockingManager_ActiveContentChanged(object sender, EventArgs e)
     {
         if (OBTabFile.IsSelected && !SearchMode)
@@ -258,7 +262,8 @@ public partial class MainWindow
         {
             // Close directly if no files need to be saved
 
-            if (!EditorReferences.Any() || !EditorReferences.Any(x => x.NeedsSave) || Program.OptionsObject.ActionOnClose != ActionOnClose.Prompt)
+            if (!EditorReferences.Any() || !EditorReferences.Any(x => x.NeedsSave) ||
+                Program.OptionsObject.ActionOnClose != ActionOnClose.Prompt)
             {
                 ClosingBuffer = true;
 #pragma warning disable CS0618 // 'MainWindow.CloseProgram(bool)' está obsoleto: 'Obsolete'
@@ -327,11 +332,12 @@ public partial class MainWindow
         {
             Program.OptionsObject.Program_ObjectbrowserWidth = ObjectBrowserColumn.Width.Value;
         }
-
     }
+
     #endregion
 
     #region Methods
+
     /// <summary>
     /// Loads a file into the editor.
     /// </summary>
@@ -341,7 +347,8 @@ public partial class MainWindow
     /// <param name="TryOpenIncludes">Whether to open the includes associated with that file</param>
     /// <param name="SelectMe">Whether to focus the editor element once the file gets opened</param>
     /// <returns>If the file opening was successful or not</returns>
-    public bool TryLoadSourceFile(string filePath, out EditorElement outEditor, bool UseBlendoverEffect = true, bool TryOpenIncludes = true, bool SelectMe = false)
+    public bool TryLoadSourceFile(string filePath, out EditorElement outEditor, bool UseBlendoverEffect = true,
+        bool TryOpenIncludes = true, bool SelectMe = false)
     {
         outEditor = null;
         var fileInfo = new FileInfo(filePath);
@@ -424,6 +431,7 @@ public partial class MainWindow
                     }
                 }
             }
+
             AddDASMElement(fileInfo);
         }
         else
@@ -447,11 +455,7 @@ public partial class MainWindow
     /// <param name="SelectMe">Whether to focus this editor element once created.</param>
     private void AddEditorElement(FileInfo fInfo, string editorTitle, bool SelectMe, out EditorElement editor)
     {
-        var layoutDocument = new LayoutDocument
-        {
-            Title = editorTitle,
-            ToolTip = fInfo.FullName
-        };
+        var layoutDocument = new LayoutDocument { Title = editorTitle, ToolTip = fInfo.FullName };
         editor = new EditorElement(fInfo.FullName) { Parent = layoutDocument };
         layoutDocument.Content = editor;
         EditorReferences.Add(editor);
@@ -460,6 +464,7 @@ public partial class MainWindow
         {
             AddNewRecentFile(fInfo);
         }
+
         if (SelectMe)
         {
             layoutDocument.IsSelected = true;
@@ -467,6 +472,7 @@ public partial class MainWindow
             EditorToFocus = editor;
             SelectDocumentTimer.Start();
         }
+
         layoutDocument.Closing += editor.Editor_TabClosed;
     }
 
@@ -520,20 +526,35 @@ public partial class MainWindow
 
         if (Program.DiscordClient.IsInitialized)
         {
-            var action = ee == null ? "Viewing" : "Editing";
-            Program.DiscordClient.SetPresence(new RichPresence
+            var presence = new RichPresence
             {
-                Timestamps = Program.OptionsObject.Program_DiscordPresenceTime ? Program.DiscordTime : null,
-                State = Program.OptionsObject.Program_DiscordPresenceFile ? someEditorIsOpen ? $"{action} {Path.GetFileName(ee?.FullFilePath ?? de.FilePath)}" : "Idle" : null,
-                Assets = new Assets
-                {
-                    LargeImageKey = "immagine",
-                },
+                Assets = new Assets { LargeImageKey = "immagine", },
                 Buttons = new Button[]
                 {
-                    new Button() { Label = Constants.GetSPCodeText, Url = Constants.GitHubLatestRelease }
+                    new() { Label = Constants.GetSPCodeText, Url = Constants.GitHubLatestRelease }
                 }
-            });
+            };
+            if (Program.OptionsObject.Program_DiscordPresenceTime)
+            {
+                presence.Timestamps = Program.DiscordTime;
+                if (someEditorIsOpen)
+                {
+                    presence.Details =
+                        $"Editing {Path.GetFileName(ee?.FullFilePath ?? de.FilePath)}";
+                    presence.State = $"{ee!.editor.LineCount} lines";
+                }
+                else
+                {
+                    presence.State = "Idle";
+                }
+            }
+            else
+            {
+                presence.Timestamps = null;
+                presence.State = null;
+            }
+
+            Program.DiscordClient.SetPresence(presence);
         }
 
         if (ServerIsRunning)
@@ -602,5 +623,6 @@ public partial class MainWindow
         FlowDirection = Program.IsRTL ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
         EditorReferences.ForEach(x => x.EvaluateRTL());
     }
+
     #endregion
 }
