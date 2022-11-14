@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using SourcepawnCondenser.SourcemodDefinition;
 using SourcepawnCondenser.Tokenizer;
@@ -107,7 +108,7 @@ public partial class Condenser
 
         for (; iteratePosition < startPosition + 5; ++iteratePosition)
         {
-            if (_tokens.Length > iteratePosition + 1)
+            if (_tokens.Count > iteratePosition + 1)
             {
                 if (_tokens[iteratePosition].Kind == TokenKind.Identifier)
                 {
@@ -254,9 +255,10 @@ public partial class Condenser
                         --braceState;
                         if (braceState == 0)
                         {
-                            var segment = new ArraySegment<Token>(_tokens, nextOpenBraceTokenIndex,
-                                i - nextOpenBraceTokenIndex);
-                            localVars = LocalVars.ConsumeSMVariableLocal(segment.ToArray(), _fileName);
+                            int count = i - nextOpenBraceTokenIndex;
+                            
+                            Span<Token> tokens = CollectionsMarshal.AsSpan(_tokens).Slice(nextOpenBraceTokenIndex, count);
+                            localVars = LocalVars.ConsumeSMVariableLocal(tokens, _fileName);
                             _def.Functions.Add(new SMFunction
                             {
                                 EndPos = _tokens[nextOpenBraceTokenIndex + (i - nextOpenBraceTokenIndex) + 1].Index,
@@ -300,7 +302,7 @@ public partial class Condenser
 
 internal static class LocalVars
 {
-    public static List<SMVariable> ConsumeSMVariableLocal(Token[] t, string FileName)
+    public static List<SMVariable> ConsumeSMVariableLocal(Span<Token> t, string FileName)
     {
         var position = 0;
         var length = t.Length;

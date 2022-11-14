@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -19,16 +20,16 @@ public partial class Condenser
     private readonly int _length;
     private readonly string _source;
 
-    private readonly Token[] _tokens;
+    private readonly List<Token> _tokens;
     private int _position;
 
     private static readonly ThreadLocal<StringBuilder> ResultStringBuilder = new(() => new StringBuilder(700));
 
     public Condenser(string sourceCode, string fileName)
     {
-        _tokens = Tokenizer.Tokenizer.TokenizeString(sourceCode, true).ToArray();
+        _tokens = Tokenizer.Tokenizer.TokenizeString(sourceCode, true);
         _position = 0;
-        _length = _tokens.Length;
+        _length = _tokens.Count;
         _def = new SMDefinition();
         _source = sourceCode;
         if (fileName.EndsWith(".inc", StringComparison.InvariantCultureIgnoreCase))

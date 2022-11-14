@@ -39,14 +39,13 @@ public partial class MainWindow : Window
         watch.Start();
         var tList = Tokenizer.TokenizeString(text, false);
         watch.Stop();
-        var t = tList.ToArray();
-        var tokenToTextLength = t.Length / (double)text.Length;
-        var subTitle = watch.ElapsedMilliseconds + " ms  -  tokenL/textL: " + tokenToTextLength + "  (" + t.Length + " / " + text.Length + ")";
+        var tokenToTextLength = tList.Count / (double)text.Length;
+        var subTitle = watch.ElapsedMilliseconds + " ms  -  tokenL/textL: " + tokenToTextLength + "  (" + tList.Count + " / " + text.Length + ")";
         tokenStack.Children.Clear();
         var i = 0;
-        if (t.Length < 10000)
+        if (tList.Count < 10000)
         {
-            foreach (var token in t)
+            foreach (var token in tList)
             {
                 ++i;
                 var g = new Grid
