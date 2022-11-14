@@ -2,27 +2,29 @@
 using System;
 
 namespace SourcepawnCondenser;
-public static class StringExtensions
+public static class RASExtensions
 {
-    public static LineSplitEnumerator SplitLines(this ReadOnlySpan<char> str)
+    public static SpanSplitEnumerator Split(this ReadOnlySpan<char> str, ReadOnlySpan<char> symbols)
     {
         // LineSplitEnumerator is a struct so there is no allocation here
-        return new LineSplitEnumerator(str);
+        return new SpanSplitEnumerator(str, symbols);
     }
 
     // Must be a ref struct as it contains a ReadOnlySpan<char>
-    public ref struct LineSplitEnumerator
+    public ref struct SpanSplitEnumerator
     {
+        private readonly ReadOnlySpan<char> _symbols;
         private ReadOnlySpan<char> _str;
 
-        public LineSplitEnumerator(ReadOnlySpan<char> str)
+        public SpanSplitEnumerator(ReadOnlySpan<char> str, ReadOnlySpan<char> symbols)
         {
+            _symbols = symbols;
             _str = str;
             Current = default;
         }
 
         // Needed to be compatible with the foreach operator
-        public LineSplitEnumerator GetEnumerator() => this;
+        public SpanSplitEnumerator GetEnumerator() => this;
 
         public bool MoveNext()
         {
@@ -30,7 +32,7 @@ public static class StringExtensions
             if (span.Length == 0) // Reach the end of the string
                 return false;
 
-            var index = span.IndexOfAny('\r', '\n');
+            var index = span.IndexOfAny(_symbols);
             if (index == -1) // The string is composed of only one line
             {
                 _str = ReadOnlySpan<char>.Empty; // The remaining string is an empty string
@@ -38,17 +40,17 @@ public static class StringExtensions
                 return true;
             }
 
-            if (index < span.Length - 1 && span[index] == '\r')
-            {
-                // Try to consume the '\n' associated to the '\r'
-                var next = span[index + 1];
-                if (next == '\n')
-                {
-                    Current = new LineSplitEntry(span[..index], span.Slice(index, 2));
-                    _str = span[(index + 2)..];
-                    return true;
-                }
-            }
+            //if (index < span.Length - 1 && span[index] == '\r')
+            //{
+            //    // Try to consume the '\n' associated to the '\r'
+            //    var next = span[index + 1];
+            //    if (next == '\n')
+            //    {
+            //        Current = new LineSplitEntry(span[..index], span.Slice(index, 2));
+            //        _str = span[(index + 2)..];
+            //        return true;
+            //    }
+            //}
 
             Current = new LineSplitEntry(span[..index], span.Slice(index, 1));
             _str = span[(index + 1)..];

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Text;
+using System.Threading;
 using SourcepawnCondenser.SourcemodDefinition;
 using SourcepawnCondenser.Tokenizer;
 
@@ -8,7 +10,8 @@ namespace SourcepawnCondenser;
 public partial class Condenser
 {
     private static readonly char[] CommentTrimSymbols = { '/', '*', ' ', '\t' };
-    private static readonly char[] FullNameTrimSymbols = { ' ', '\t' };
+    private static readonly char[] SpaceTrimChars = { ' ', '\t' };
+    private static readonly char[] LineSplitChars = { '\r', '\n' };
 
     private readonly SMDefinition _def;
 
@@ -18,6 +21,8 @@ public partial class Condenser
 
     private readonly Token[] _tokens;
     private int _position;
+
+    private static readonly ThreadLocal<StringBuilder> ResultStringBuilder = new(() => new StringBuilder(700));
 
     public Condenser(string sourceCode, string fileName)
     {
@@ -118,9 +123,11 @@ public partial class Condenser
 
     private static string TrimComments(ReadOnlySpan<char> comment)
     {
-        var outString = new StringBuilder();
-        var lines = comment.SplitLines();
+        if (comment.Length == 0) return string.Empty;
 
+        var outString = ResultStringBuilder.Value!;
+        outString.Clear();
+        var lines = comment.Split(LineSplitChars);
         int i = 0;
         foreach (var lineSplitEntry in lines)
         {
@@ -134,7 +141,7 @@ public partial class Condenser
 
                 if (line.StartsWith("@param"))
                 {
-                    outString.Append(FormatParamLineString(line.ToString()).Trim());
+                    AppendParamLine(outString, line);
                 }
                 else
                 {
@@ -150,9 +157,11 @@ public partial class Condenser
 
     private static string TrimFullname(ReadOnlySpan<char> name)
     {
-        var outString = new StringBuilder();
+        var outString = ResultStringBuilder.Value!;
+        outString.Clear();
         int i = 0;
-        foreach (var lineEntry in name.SplitLines())
+
+        foreach (var lineEntry in name.Split(LineSplitChars))
         {
             var line = lineEntry.Line;
             if (!line.IsWhiteSpace())
@@ -162,7 +171,7 @@ public partial class Condenser
                     outString.Append(' ');
                 }
 
-                outString.Append(line.Trim(FullNameTrimSymbols));
+                outString.Append(line.Trim(SpaceTrimChars));
             }
 
             i++;
@@ -172,15 +181,46 @@ public partial class Condenser
     }
 
 
-    private static string FormatParamLineString(string line)
+    private static void AppendParamLine(StringBuilder builder, ReadOnlySpan<char> line)
     {
-        var split = line.Split(new[] { ' ' }, 3);
-        if (split.Length > 2)
+        var firstSpace = line.IndexOf(' ');
+
+        if (firstSpace == -1) return;
+
+        var paramInfo = line[(firstSpace + 1)..];
+        var secondSpace = paramInfo.IndexOf(' ');
+        if (secondSpace == -1) return;
+
+        var paramName = paramInfo.Slice(0, secondSpace);
+        var paramDesc = paramInfo[secondSpace..].Trim(SpaceTrimChars);
+        const string param = "@param";
+
+        var index = 0;
+        var leftSideLength = param.Length + paramName.Length + 1;
+        if (leftSideLength < 24) leftSideLength = 24;
+        Span<char> result = stackalloc char[leftSideLength + paramDesc.Length];
+        foreach (var t in param)
         {
-            return ("@param " + split[1]).PadRight(24, ' ') + " " + split[2].Trim(' ', '\t');
+            result[index++] = t;
         }
 
-        return line;
+        result[index++] = ' ';
+        foreach (var t in paramName)
+        {
+            result[index++] = t;
+        }
+
+        while (index < 24)
+        {
+            result[index++] = ' ';
+        }
+
+        foreach (var t in paramDesc)
+        {
+            result[index++] = t;
+        }
+
+        builder.Append(result);
     }
 
     private int ConsumeSMIdentifier()

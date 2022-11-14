@@ -34,7 +34,7 @@ public class CondenserBench
         //Tokenizer.TokenizeString(_text, true);
 
         var condenser =
-            new Condenser(_text, "test"); // The biggest thing I found
+            new Condenser(_text, "test"); 
 
         condenser.Condense();
     }
