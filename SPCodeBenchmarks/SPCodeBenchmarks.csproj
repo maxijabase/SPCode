@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net6.0-windows</TargetFramework>
+        <TargetFramework>net7.0-windows</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
@@ -21,10 +21,10 @@
 
     <ItemGroup>
       <PackageReference Include="BenchmarkDotNet">
-        <Version>0.13.2</Version>
+        <Version>0.13.4</Version>
       </PackageReference>
       <PackageReference Include="Dirkster.AvalonDock.Themes.Metro">
-        <Version>4.70.3</Version>
+        <Version>4.71.2</Version>
       </PackageReference>
     </ItemGroup>
 	

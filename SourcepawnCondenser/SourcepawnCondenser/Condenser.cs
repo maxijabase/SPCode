@@ -192,7 +192,7 @@ public partial class Condenser
         var secondSpace = paramInfo.IndexOf(' ');
         if (secondSpace == -1) return;
 
-        var paramName = paramInfo.Slice(0, secondSpace);
+        var paramName = paramInfo[..secondSpace];
         var paramDesc = paramInfo[secondSpace..].Trim(SpaceTrimChars);
         const string param = "@param";
 
